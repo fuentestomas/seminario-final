@@ -31,7 +31,7 @@ export class CalendarPage implements OnInit {
       dayGridMonth para mes
       list para lista
     */
-    initialView: 'timeGridWeek',
+    initialView: 'list',
     weekends: true,
     headerToolbar: {
       start: 'title',
@@ -45,9 +45,10 @@ export class CalendarPage implements OnInit {
         }
       },
       week: {
+        titleFormat: { year: 'numeric', month: 'short', day: '2-digit' },
         dayHeaderFormat: {
           weekday: 'narrow',
-          day: 'numeric'
+          day: '2-digit'
         }
       },
       day: {
