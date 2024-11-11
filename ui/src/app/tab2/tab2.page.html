@@ -6,6 +6,7 @@
   </ion-toolbar>
   <ion-searchbar [debounce]="1000" animated="true" placeholder="Buscar"></ion-searchbar>
 </ion-header>
+
 <ion-content [fullscreen]="true">
   <h1 class="ion-padding-horizontal">Mis trabajos</h1>
   <swiper-container [slidesPerView]="1.2" [spaceBetween]="10" [centeredSlides]="true" class="ion-padding" style="height: 250px;">
@@ -78,6 +79,12 @@
       </ion-card>
     </swiper-slide>
   </swiper-container>
+  <ion-fab slot="fixed" vertical="bottom" horizontal="end">
+    <ion-fab-button>
+      <ion-icon name="add"></ion-icon>
+      <!-- <ion-label>Oferta indirecta</ion-label> -->
+    </ion-fab-button>
+  </ion-fab>
   <style>
      .status-badge {
        white-space: normal;
