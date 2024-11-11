@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { IonContent, IonHeader, IonTitle, IonToolbar, IonButton } from '@ionic/angular/standalone';
+import { IonContent, IonHeader, IonFooter, IonTitle, IonToolbar, IonButton, IonGrid, IonRow, IonCol } from '@ionic/angular/standalone';
 import { FullCalendarModule, FullCalendarComponent } from '@fullcalendar/angular';
 import { CalendarOptions } from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
@@ -14,7 +14,7 @@ import { cA } from '@fullcalendar/core/internal-common';
   templateUrl: './calendar.page.html',
   styleUrls: ['./calendar.page.scss'],
   standalone: true,
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, IonButton, CommonModule, FullCalendarModule]
+  imports: [IonContent, IonFooter, IonHeader, IonTitle, IonToolbar, IonButton, IonGrid, IonRow, IonCol, CommonModule, FullCalendarModule]
 })
 export class CalendarPage implements OnInit {
 
@@ -81,6 +81,10 @@ export class CalendarPage implements OnInit {
     
   }
 
+  ngOnInit() {
+
+  }
+
   ionViewDidEnter() {
     if (this.calendarComponent) {
       const calendarApi = this.calendarComponent.getApi();
@@ -91,14 +95,10 @@ export class CalendarPage implements OnInit {
   }
 
   changeView(view: string) {
+    const calendarApi = this.calendarComponent.getApi();
     if (this.calendarComponent) {
-      const calendarApi = this.calendarComponent.getApi();
       calendarApi.changeView(view);
     }
-  }
-
-  ngOnInit() {
-
   }
 
 }
