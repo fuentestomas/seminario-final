@@ -1,0 +1,18 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>
+      Calendario
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="ion-padding">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Calendario</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <full-calendar #calendar [options]="calendarOptions"></full-calendar>
+  <ion-button expand="block" (click)="changeView('timeGridWeek')">Semana</ion-button>
+</ion-content>
