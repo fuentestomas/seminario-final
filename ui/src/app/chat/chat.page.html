@@ -1,0 +1,29 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-avatar slot="start" style="background-color: red;" style="padding: 8px;">
+      <img src="https://picsum.photos/80/80?random=1" alt="avatar">
+    </ion-avatar>
+    <ion-title>John Doe</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <div class="message-container">
+    <div *ngFor="let message of messages" 
+         class="message" 
+         [ngClass]="{'sent': message.sent, 'received': !message.sent}">
+      <div class="message-bubble">
+        {{ message.text }}
+      </div>
+    </div>
+  </div>
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar style="padding-left: 10px;">
+    <ion-input [(ngModel)]="newMessage" placeholder="Escribe tu mensaje..."></ion-input>
+    <ion-button (click)="sendMessage()" slot="end">
+      <ion-icon name="send"></ion-icon>
+    </ion-button>
+  </ion-toolbar>
+</ion-footer>
