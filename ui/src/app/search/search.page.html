@@ -1,7 +1,15 @@
 <ion-content [fullscreen]="true">
   <ion-header [translucent]="true">
     <ion-toolbar color="primary">
-      <ion-searchbar [debounce]="1000" animated="true" placeholder="Buscar"></ion-searchbar>
+      <ion-buttons slot="start">
+        <ion-back-button defaultHref="tabs/home"></ion-back-button> 
+      </ion-buttons>
+      <ion-searchbar [debounce]="1000" animated="true" placeholder="Buscar" class="custom-searchbar"></ion-searchbar>
+      <ion-buttons slot="end">
+        <ion-button class="filters-button" (click)="openFiltersModal()" shape="round">
+          <ion-icon name="options"></ion-icon> 
+        </ion-button>
+      </ion-buttons>
     </ion-toolbar>
   </ion-header>
   <ion-list>
@@ -9,7 +17,81 @@
       <ion-avatar slot="start">
         <img [src]="'https://picsum.photos/80/80?random=' + index" alt="avatar" />
       </ion-avatar>
-      <ion-label>{{ item }}</ion-label>
+      <ion-label style="overflow: hidden;">
+        <h2>{{ item.name }}</h2>
+        <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ item.description }}</p>
+      </ion-label>
     </ion-item>
   </ion-list>
+
+  <!-- Modal -->
+  <ion-modal (willDismiss)="onWillDismiss($event)">
+    <ng-template>
+      <ion-header>
+        <ion-toolbar color="secondary">
+          <ion-buttons slot="start">
+            <ion-button (click)="dismissModal()">Cerrar</ion-button>
+          </ion-buttons>
+          <ion-title>Filtros</ion-title>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content class="ion-padding">
+        <ion-item>
+          <ion-label>Categoría</ion-label>
+          <ion-select placeholder="Seleccionar categoría">
+            <ion-select-option value="category1">Electricidad</ion-select-option>
+            <ion-select-option value="category2">Plomeria</ion-select-option>
+            <ion-select-option value="category3">Carpinteria</ion-select-option>
+          </ion-select>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="stacked">Rango de costo</ion-label>
+          <ion-grid>
+            <ion-row>
+              <ion-col size="5">
+                <ion-input type="number" placeholder="Min" min="0" max="1000"></ion-input>
+              </ion-col>
+              <ion-col size="2">
+                -
+              </ion-col>
+              <ion-col size="5">
+                <ion-input type="number" placeholder="Max" min="0" max="1000"></ion-input>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+        </ion-item>
+      
+        <ion-item>
+          <ion-label position="stacked">Rango de tiempo</ion-label>
+          <ion-grid>
+            <ion-row>
+              <ion-col size="5">
+                <ion-input type="number" placeholder="Min" min="0" max="24"></ion-input>
+              </ion-col>
+              <ion-col size="2">
+                -
+              </ion-col>
+              <ion-col size="5">
+                <ion-input type="number" placeholder="Max" min="0" max="24"></ion-input>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="floating">Buscar por proximidad (km)</ion-label>
+          <ion-range dualKnobs="true" min="0" max="1000" step="10" [value]="{ lower: 1, upper: 50 }">
+            <ion-label slot="start">1km</ion-label>
+            <ion-label slot="end">50km</ion-label>
+          </ion-range>
+        </ion-item>
+
+        <ion-button expand="block" (click)="resetFilters()" class="ion-margin-top">
+          Resetear filtros
+        </ion-button>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+
 </ion-content>

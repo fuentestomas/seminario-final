@@ -5,6 +5,7 @@ import { ExploreContainerComponent } from '../explore-container/explore-containe
 import { addIcons } from 'ionicons';
 import { add } from 'ionicons/icons';
 import { register } from 'swiper/element/bundle';
+import { Router } from '@angular/router';
 
 register();
 
@@ -25,8 +26,14 @@ export class HomePage {
     centeredSlides: true
   };
 
-  constructor() {
+  constructor(
+    private router: Router
+  ) {
     addIcons({ add });
+  }
+
+  goToSearch() {
+    this.router.navigate(['search']);
   }
 
 }
