@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonButton, IonButtons, IonContent, IonDatetimeButton, IonHeader, IonIcon, IonItem, IonLabel, IonModal, IonSelect, IonSelectOption, IonTextarea, IonTitle, IonToolbar } from '@ionic/angular/standalone';
+import { IonBackButton, IonButton, IonButtons, IonContent, IonDatetimeButton, IonHeader, IonIcon, IonInput, IonItem, IonLabel, IonModal, IonSelect, IonSelectOption, IonTextarea, IonTitle, IonToolbar } from '@ionic/angular/standalone';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { OverlayEventDetail } from '@ionic/core/components';
 import { addIcons } from 'ionicons';
@@ -12,7 +12,7 @@ import { add, star } from 'ionicons/icons';
   templateUrl: './offer.page.html',
   styleUrls: ['./offer.page.scss'],
   standalone: true,
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonModal, IonItem, IonLabel, IonSelect, IonSelectOption, IonTextarea, IonDatetimeButton, IonIcon, IonButtons, IonButton, RouterModule]
+  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonModal, IonItem, IonLabel, IonSelect, IonSelectOption, IonTextarea, IonDatetimeButton, IonIcon, IonButtons, IonButton, RouterModule, IonBackButton, IonInput]
 })
 export class OfferPage implements OnInit {
 
@@ -21,6 +21,7 @@ export class OfferPage implements OnInit {
 
   isDetail: boolean = false;
   offer: any = {
+    title: '',
     serviceType: '',
     description: '',
     startTime: '',
@@ -30,17 +31,20 @@ export class OfferPage implements OnInit {
   image!: string;
 
   inProgress: boolean = false;
+  isPending: boolean = false;
   rating: number = 0;
   comment: string = '';
 
+  role!: string | null;
+
   constructor(
-    private routerModule: RouterModule,
     private route: ActivatedRoute
   ) {
     addIcons({ add, star });
   }
 
   ngOnInit() {
+    this.role = localStorage.getItem('role');
     this.route.paramMap.subscribe(params => {
       const offerId = params.get('id');
       if (offerId) {
@@ -48,6 +52,7 @@ export class OfferPage implements OnInit {
         // Here you would typically fetch the offer details using the ID
         // For this example, we'll just set some dummy data
         this.offer = {
+          title: 'Instalacion electrica',
           serviceType: 'type1',
           description: 'Necesito instalar 3 tomacorrientes',
           startTime: '10:00',
@@ -59,6 +64,9 @@ export class OfferPage implements OnInit {
         };
         if (offerId == 'inProgress') {
           this.inProgress = true;
+        }
+        if (offerId == 'isPending') {
+          this.isPending = true;
         }
       }
     });

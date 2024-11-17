@@ -5,7 +5,7 @@
     </ion-title>
   </ion-toolbar>
   <!-- <ion-toolbar color="primary"> -->
-  <ion-toolbar class="searchbar-toolbar">
+  <ion-toolbar class="searchbar-toolbar" *ngIf="role === 'employer'">
     <ion-searchbar 
       animated="true" 
       placeholder="Buscar"
@@ -17,79 +17,104 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <h1 class="ion-padding-horizontal">Mis trabajos</h1>
-  <swiper-container [slidesPerView]="1.2" [spaceBetween]="10" [centeredSlides]="true" class="ion-padding" style="height: 250px;">
-    <swiper-slide>
-      <ion-card>
-        <ion-card-header>
-          <div class="ion-justify-content-between ion-align-items-center" style="display: flex; flex-wrap: wrap; gap: 8px;">
-            <ion-card-title>Arreglo baño</ion-card-title>
-            <ion-badge class="status-badge" color="success">Completado</ion-badge>
-          </div>
-          <ion-card-subtitle>Javier Valicenti - Plomero</ion-card-subtitle>
-        </ion-card-header>
-        <ion-card-content>
-          <p class="ion-text-wrap" style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">
-            Necesito que se arregle una perdida de agua que tengo en la bañera. Este es un texto largo para demostrar el recorte.
-          </p>
-        </ion-card-content>
-      </ion-card>
-    </swiper-slide>
-    <swiper-slide>
-      <ion-card>
-        <ion-card-header>
-          <div class="ion-justify-content-between ion-align-items-center" style="display: flex; flex-wrap: wrap; gap: 8px;">
-            <ion-card-title>Pintura sala</ion-card-title>
-            <ion-badge class="status-badge" color="warning">En progreso</ion-badge>
-          </div>
-          <ion-card-subtitle>María González - Pintora</ion-card-subtitle>
-        </ion-card-header>
-        <ion-card-content>
-          <p class="ion-text-wrap" style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">
-            Necesito pintar mi sala de estar, aproximadamente 20 metros cuadrados. El color debe ser beige claro.
-          </p>
-        </ion-card-content>
-      </ion-card>
-    </swiper-slide>
-    <swiper-slide>
-      <ion-card>
-        <ion-card-header>
-          <div class="ion-justify-content-between ion-align-items-center" style="display: flex; flex-wrap: wrap; gap: 8px;">
-            <ion-card-title>Reparación eléctrica</ion-card-title>
-            <ion-badge class="status-badge" color="danger">Rechazado</ion-badge>
-          </div>
-          <ion-card-subtitle>Carlos Rodríguez - Electricista</ion-card-subtitle>
-        </ion-card-header>
-        <ion-card-content>
-          <p class="ion-text-wrap" style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">
-            Tengo un problema con el cableado en mi cocina, necesito una revisión completa del sistema eléctrico.
-          </p>
-        </ion-card-content>
-      </ion-card>
-    </swiper-slide>
-  </swiper-container>
+  <div *ngIf="role === 'employer'">
+    <h1 class="ion-padding-horizontal">Mis trabajos</h1>
+    <swiper-container [slidesPerView]="1.2" [spaceBetween]="10" [centeredSlides]="true" class="ion-padding" style="height: 250px;">
+      <swiper-slide *ngFor="let item of myJobs">
+        <ion-card (click)="goToOffer(item)">
+          <ion-card-header>
+            <div class="ion-justify-content-between ion-align-items-center" style="display: flex; flex-wrap: wrap; gap: 8px;">
+              <ion-card-title>{{ item.title }}</ion-card-title>
+              <ion-badge class="status-badge" color="success" *ngIf="item.status === 'completed'">Completado</ion-badge>
+              <ion-badge class="status-badge" color="warning" *ngIf="item.status === 'inProgress'">En progreso</ion-badge>
+              <ion-badge class="status-badge" color="danger" *ngIf="item.status === 'rejected'">Rechazado</ion-badge>
+              <ion-badge class="status-badge" color="medium" *ngIf="item.status === 'pending'">Pendiente</ion-badge>
+            </div>
+            <ion-card-subtitle>{{ item.user }}</ion-card-subtitle>
+          </ion-card-header>
+          <ion-card-content>
+            <p class="ion-text-wrap" style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">
+              {{ item.description }}
+            </p>
+          </ion-card-content>
+        </ion-card>
+      </swiper-slide>
+    </swiper-container>
+  </div>
 
-  <h1 class="ion-padding-horizontal">Trabajos aceptados</h1>
-  <swiper-container [slidesPerView]="1.2" [spaceBetween]="10" [centeredSlides]="true" class="ion-padding" style="height: 250px;">
-    <swiper-slide>
-      <ion-card>
-        <ion-card-header>
-          <div class="ion-justify-content-between ion-align-items-center" style="display: flex; flex-wrap: wrap; gap: 8px;">
-            <ion-card-title>Arreglo baño</ion-card-title>
-            <ion-badge class="status-badge" color="warning">En progreso</ion-badge>
-          </div>
-          <ion-card-subtitle>Javier Valicenti - Plomero</ion-card-subtitle>
-        </ion-card-header>
-        <ion-card-content>
-          <p class="ion-text-wrap" style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">
-            Necesito que se arregle una perdida de agua que tengo en la bañera. El trabajo comenzará mañana.
-          </p>
-        </ion-card-content>
-      </ion-card>
-    </swiper-slide>
-  </swiper-container>
+  <div *ngIf="role === 'worker'">
+    <h1 class="ion-padding-horizontal">Ofertas indirectas abiertas</h1>
+    <swiper-container [slidesPerView]="1.2" [spaceBetween]="10" [centeredSlides]="true" class="ion-padding" style="height: 250px;">
+      <swiper-slide *ngFor="let item of indirectOffers">
+        <ion-card (click)="goToOffer(item)">
+          <ion-card-header>
+            <div class="ion-justify-content-between ion-align-items-center" style="display: flex; flex-wrap: wrap; gap: 8px;">
+              <ion-card-title>{{ item.title }}</ion-card-title>
+            </div>
+            <ion-card-subtitle>{{ item.user }}</ion-card-subtitle>
+          </ion-card-header>
+          <ion-card-content>
+            <p class="ion-text-wrap" style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">
+              {{ item.description }}
+            </p>
+          </ion-card-content>
+        </ion-card>
+      </swiper-slide>
+    </swiper-container>
+  </div>
+
+  <div *ngIf="role === 'worker'">
+    <h1 class="ion-padding-horizontal">Ofertas directas pendientes</h1>
+    <swiper-container [slidesPerView]="1.2" [spaceBetween]="10" [centeredSlides]="true" class="ion-padding" style="height: 250px;">
+      <swiper-slide *ngFor="let item of pendingOffers">
+        <ion-card (click)="goToOffer(item)">
+          <ion-card-header>
+            <div class="ion-justify-content-between ion-align-items-center" style="display: flex; flex-wrap: wrap; gap: 8px;">
+              <ion-card-title>{{ item.title }}</ion-card-title>
+              <ion-badge class="status-badge" color="success" *ngIf="item.status === 'completed'">Completado</ion-badge>
+              <ion-badge class="status-badge" color="warning" *ngIf="item.status === 'inProgress'">En progreso</ion-badge>
+              <ion-badge class="status-badge" color="danger" *ngIf="item.status === 'rejected'">Rechazado</ion-badge>
+              <ion-badge class="status-badge" color="medium" *ngIf="item.status === 'pending'">Pendiente</ion-badge>
+            </div>
+            <ion-card-subtitle>{{ item.user }}</ion-card-subtitle>
+          </ion-card-header>
+          <ion-card-content>
+            <p class="ion-text-wrap" style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">
+              {{ item.description }}
+            </p>
+          </ion-card-content>
+        </ion-card>
+      </swiper-slide>
+    </swiper-container>
+  </div>
+
+  <div>
+    <h1 class="ion-padding-horizontal">Trabajos aceptados</h1>
+    <swiper-container [slidesPerView]="1.2" [spaceBetween]="10" [centeredSlides]="true" class="ion-padding" style="height: 250px;">
+      <swiper-slide *ngFor="let item of aceptedJobs">
+        <ion-card (click)="goToOffer(item)">
+          <ion-card-header>
+            <div class="ion-justify-content-between ion-align-items-center" style="display: flex; flex-wrap: wrap; gap: 8px;">
+              <ion-card-title>{{ item.title }}</ion-card-title>
+              <ion-badge class="status-badge" color="success" *ngIf="item.status === 'completed'">Completado</ion-badge>
+              <ion-badge class="status-badge" color="warning" *ngIf="item.status === 'inProgress'">En progreso</ion-badge>
+              <ion-badge class="status-badge" color="danger" *ngIf="item.status === 'rejected'">Rechazado</ion-badge>
+              <ion-badge class="status-badge" color="medium" *ngIf="item.status === 'pending'">Pendiente</ion-badge>
+            </div>
+            <ion-card-subtitle>{{ item.user }}</ion-card-subtitle>
+          </ion-card-header>
+          <ion-card-content>
+            <p class="ion-text-wrap" style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">
+              {{ item.description }}
+            </p>
+          </ion-card-content>
+        </ion-card>
+      </swiper-slide>
+    </swiper-container>
+  </div>
+
   <ion-fab slot="fixed" vertical="bottom" horizontal="end">
-    <ion-fab-button (click)="createIndirectOffer()">
+    <ion-fab-button (click)="createIndirectOffer()" *ngIf="role === 'employer'">
       <ion-icon name="add"></ion-icon>
     </ion-fab-button>
   </ion-fab>

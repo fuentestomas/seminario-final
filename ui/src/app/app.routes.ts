@@ -41,4 +41,9 @@ export const routes: Routes = [
     path: 'indirect-offer',
     loadComponent: () => import('./offer/offer.page').then( m => m.OfferPage)
   },
+  {
+    path: 'profile/:id',
+    loadComponent: () =>
+      import('./profile/profile.page').then((m) => m.ProfilePage),
+  },
 ];

@@ -14,10 +14,13 @@ import { person, home, chatbubbles, calendar } from 'ionicons/icons';
 export class TabsPage {
   public environmentInjector = inject(EnvironmentInjector);
 
-  role: string | null;
+  role!: string | null;
 
   constructor() {
     addIcons({ person, chatbubbles, home, calendar });
+  }
+
+  ngOnInit() {
     this.role = localStorage.getItem('role');
   }
 }

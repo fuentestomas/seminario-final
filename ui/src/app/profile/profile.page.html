@@ -1,5 +1,8 @@
 <ion-header [translucent]="true">
   <ion-toolbar color="primary">
+    <ion-buttons slot="start" *ngIf="isDetail">
+      <ion-back-button defaultHref="search"></ion-back-button> 
+    </ion-buttons>
     <ion-title>
       Perfil
     </ion-title>
@@ -22,7 +25,7 @@
 
   <div class="avatar-container">
     <div class="avatar">
-      <!-- <img [src]="profileImageUrl" *ngIf="profileImageUrl" alt="Profile Picture"> -->
+      <img [src]="profileImageUrl" *ngIf="profileImageUrl" alt="Profile Picture">
       <ion-icon name="camera"></ion-icon>
     </div>
   </div>
@@ -30,29 +33,30 @@
   <ion-list>
     <ion-item>
       <ion-label position="floating">Nombre</ion-label>
-      <ion-input [(ngModel)]="user.name"></ion-input>
+      <ion-input [(ngModel)]="user.name" [disabled]="isDetail"></ion-input>
     </ion-item>
 
     <ion-item>
       <ion-label position="floating">Apellido</ion-label>
-      <ion-input [(ngModel)]="user.lastName"></ion-input>
+      <ion-input [(ngModel)]="user.lastName" [disabled]="isDetail"></ion-input>
     </ion-item>
 
     <ion-item>
       <ion-label position="floating">Teléfono</ion-label>
-      <ion-input [(ngModel)]="user.phoneNumber"></ion-input>
+      <ion-input [(ngModel)]="user.phoneNumber" [disabled]="isDetail"></ion-input>
     </ion-item>
 
     <ion-item>
       <ion-label position="floating">Dirección</ion-label>
-      <ion-input [(ngModel)]="user.address"></ion-input>
+      <ion-input [(ngModel)]="user.address" [disabled]="isDetail"></ion-input>
     </ion-item>
   </ion-list>
 
+  <ion-button expand="block" *ngIf="isDetail" (click)="goToOffer()">Enviar oferta</ion-button>
 
-  <ion-button expand="block" disabled>Guardar</ion-button>
+  <ion-button expand="block" *ngIf="!isDetail" disabled>Guardar</ion-button>
 
-  <ion-button expand="block" color="danger" (click)="logout()">Cerrar sesión</ion-button>
+  <ion-button expand="block" *ngIf="!isDetail" color="danger" (click)="logout()">Cerrar sesión</ion-button>
 
   <ion-label class="ion-margin-top">
     <ion-title>Comentarios</ion-title> 

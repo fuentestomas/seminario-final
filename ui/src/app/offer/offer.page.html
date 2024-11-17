@@ -1,17 +1,23 @@
 <ion-header [translucent]="true">
   <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="tabs/home"></ion-back-button> 
+    </ion-buttons>
     <ion-title>{{ isDetail ? 'Detalle oferta' : 'Nueva oferta' }}</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content class="ion-padding">
-  <form (ngSubmit)="onSubmit()">
+  <!-- <form (ngSubmit)="onSubmit()"> -->
+    <ion-item>
+      <ion-input name="title" label="Titulo" labelPlacement="floating" [disabled]="isDetail" [(ngModel)]="offer.title" [ngModelOptions]="{standalone: true}"></ion-input>
+    </ion-item>
+
     <ion-item>
       <ion-label position="stacked">Tipo de servicio</ion-label>
       <ion-select name="category" [disabled]="isDetail" [(ngModel)]="offer.serviceType" placeholder="Selecciona categoria">
         <ion-select-option value="type1">Electricidad</ion-select-option>
-        <ion-select-option value="type2">Tipo de Servicio 2</ion-select-option>
-        <ion-select-option value="type3">Tipo de Servicio 3</ion-select-option>
+        <ion-select-option value="type2">Gas</ion-select-option>
       </ion-select>
     </ion-item>
 
@@ -28,9 +34,9 @@
     <ion-item>
       <ion-label position="stacked">Horario deseable</ion-label>
       <div class="time-range">
-        <ion-input type="time" name="startTime" [(ngModel)]="offer.startTime"></ion-input>
+        <ion-input type="time" [disabled]="isDetail" name="startTime" [(ngModel)]="offer.startTime" [ngModelOptions]="{standalone: true}"></ion-input>
         <span>-</span>
-        <ion-input type="time" name="endTime" [(ngModel)]="offer.endTime"></ion-input>
+        <ion-input type="time" [disabled]="isDetail" name="endTime" [(ngModel)]="offer.endTime" [ngModelOptions]="{standalone: true}"></ion-input>
       </div>
     </ion-item>
 
@@ -44,13 +50,13 @@
     </div>
 
     <ion-button *ngIf="!isDetail" expand="block" >Enviar oferta</ion-button>
-  </form>
+  <!-- </form> -->
 
   <div *ngIf="inProgress" class="ion-padding">
     <ion-button expand="block" color="secondary" (click)="finishJob()">Finalizar trabajo</ion-button>
   </div>
 
-  <div *ngIf="isDetail && !inProgress" class="ion-padding">
+  <div *ngIf="isPending && role === 'worker'" class="ion-padding">
     <ion-button expand="block" color="success" (click)="acceptOffer()">Aceptar</ion-button>
     <ion-button expand="block" color="danger" (click)="rejectOffer()">Rechazar</ion-button>
   </div>

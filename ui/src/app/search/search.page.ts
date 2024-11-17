@@ -20,14 +20,17 @@ export class SearchPage implements OnInit {
 
   items = [
     {
+      "id": 1,
       "name": "Javier Valicenti",
       "description": "Electricista con más de 10 años de experiencia en instalaciones residenciales y comerciales. Javier es conocido por su meticulosidad y atención al detalle, asegurando que cada trabajo se realice con precisión y seguridad. Siempre dispuesto a resolver cualquier problema eléctrico, desde la instalación de un nuevo tomacorriente hasta la reparación de un sistema complejo."
     },
     {
+      "id": 2,
       "name": "Omar Juarez",
       "description": "Plomero experto en la resolución de problemas de plomería, desde fugas de agua hasta la instalación de sistemas de calefacción. Omar se destaca por su rapidez y eficiencia, ofreciendo soluciones duraderas y garantizando la satisfacción del cliente. Siempre disponible para emergencias, con un servicio amable y profesional."
     },
     {
+      "id": 3,
       "name": "Agustin Romero",
       "description": "Carpintero con una pasión por la madera y un talento innato para crear piezas únicas y funcionales. Agustín combina la artesanía tradicional con técnicas modernas para ofrecer muebles a medida, restauraciones y trabajos de carpintería en general. Su creatividad y atención al detalle se reflejan en cada proyecto que realiza."
     }
@@ -47,6 +50,10 @@ export class SearchPage implements OnInit {
 
   dismissModal() {
     this.modal.dismiss();
+  }
+
+  goToProfile(item: any) {
+    this.router.navigate(['profile', item.id]);
   }
 
   resetFilters() {
