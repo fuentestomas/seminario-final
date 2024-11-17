@@ -5,7 +5,7 @@ import { IonButton, IonButtons, IonContent, IonDatetimeButton, IonHeader, IonIco
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { OverlayEventDetail } from '@ionic/core/components';
 import { addIcons } from 'ionicons';
-import { add } from 'ionicons/icons';
+import { add, star } from 'ionicons/icons';
 
 @Component({
   selector: 'app-offer',
@@ -17,6 +17,7 @@ import { add } from 'ionicons/icons';
 export class OfferPage implements OnInit {
 
   @ViewChild("imageModal") imgModal!: IonModal;
+  @ViewChild("ratingModal") rtgModal!: IonModal;
 
   isDetail: boolean = false;
   offer: any = {
@@ -28,11 +29,15 @@ export class OfferPage implements OnInit {
   };
   image!: string;
 
+  inProgress: boolean = false;
+  rating: number = 0;
+  comment: string = '';
+
   constructor(
     private routerModule: RouterModule,
     private route: ActivatedRoute
   ) {
-    addIcons({ add });
+    addIcons({ add, star });
   }
 
   ngOnInit() {
@@ -52,12 +57,19 @@ export class OfferPage implements OnInit {
             '../../assets/avatar.png'
           ]
         };
+        if (offerId == 'inProgress') {
+          this.inProgress = true;
+        }
       }
     });
   }
 
   onSubmit() {
 
+  }
+
+  finishJob() {
+    this.rtgModal.present();
   }
 
   addImage() {
@@ -74,6 +86,18 @@ export class OfferPage implements OnInit {
 
   dismissModal() {
     this.imgModal.dismiss();
+  }
+
+  setRating(value: number) {
+    this.rating = value;
+  }
+
+  cancel() {
+    console.log('Rating:', this.rating);
+    console.log('Comment:', this.comment);
+    this.rating = 0;
+    this.comment = '';
+    this.rtgModal.dismiss();
   }
 
   onWillDismiss(event: Event) {

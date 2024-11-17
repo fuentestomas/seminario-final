@@ -30,3 +30,37 @@
 .add-image ion-icon {
     font-size: 24px;
 }
+rating-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+.stars {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin: 20px 0;
+}
+
+star-icon {
+    font-size: 32px;
+    color: var(--ion-color-medium);
+    cursor: pointer;
+}
+
+ion-icon.selected {
+    color: var(--ion-color-warning);
+}
+
+.experience-text {
+    font-size: 18px;
+    color: var(--ion-color-dark);
+    text-align: center;
+    margin-top: 20px;
+}
+
+rating-item {
+    width: 100%;
+}
