@@ -29,4 +29,12 @@ export const routes: Routes = [
     path: 'register-worker',
     loadComponent: () => import('./register-worker/register-worker.page').then( m => m.RegisterWorkerPage)
   },
+  {
+    path: 'offer',
+    loadComponent: () => import('./offer/offer.page').then( m => m.OfferPage)
+  },
+  {
+    path: 'offer/:id',
+    loadComponent: () => import('./offer/offer.page').then( m => m.OfferPage)
+  },
 ];
