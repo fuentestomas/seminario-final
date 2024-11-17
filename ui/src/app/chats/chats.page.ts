@@ -4,13 +4,13 @@ import { IonHeader, IonToolbar, IonTitle, IonContent, IonList, IonLabel, IonAvat
 import { ExploreContainerComponent } from '../explore-container/explore-container.component';
 
 @Component({
-  selector: 'app-tab1',
-  templateUrl: 'tab1.page.html',
-  styleUrls: ['tab1.page.scss'],
+  selector: 'app-chats',
+  templateUrl: 'chats.page.html',
+  styleUrls: ['chats.page.scss'],
   standalone: true,
   imports: [IonHeader, IonToolbar, IonTitle, IonContent, ExploreContainerComponent, IonList, IonLabel, IonAvatar, IonItem, CommonModule],
 })
-export class Tab1Page implements OnInit {
+export class ChatsPage implements OnInit {
 
   items = ['Javier Valicenti', 'Omar Juarez', 'Agustin Romero'];
   

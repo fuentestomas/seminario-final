@@ -7,19 +7,19 @@ export const routes: Routes = [
     component: TabsPage,
     children: [
       {
-        path: 'tab1',
+        path: 'chats',
         loadComponent: () =>
-          import('../tab1/tab1.page').then((m) => m.Tab1Page),
+          import('../chats/chats.page').then((m) => m.ChatsPage),
       },
       {
-        path: 'tab2',
+        path: 'home',
         loadComponent: () =>
-          import('../tab2/tab2.page').then((m) => m.Tab2Page),
+          import('../home/home.page').then((m) => m.HomePage),
       },
       {
-        path: 'tab3',
+        path: 'profile',
         loadComponent: () =>
-          import('../tab3/tab3.page').then((m) => m.Tab3Page),
+          import('../profile/profile.page').then((m) => m.ProfilePage),
       },
       {
         path: 'calendar',
@@ -28,14 +28,14 @@ export const routes: Routes = [
       },
       {
         path: '',
-        redirectTo: '/tabs/tab1',
+        redirectTo: '/tabs/home',
         pathMatch: 'full',
       },
     ],
   },
   {
     path: '',
-    redirectTo: '/tabs/tab2',
+    redirectTo: '/tabs/home',
     pathMatch: 'full',
   },
 ];

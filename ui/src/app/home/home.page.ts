@@ -9,15 +9,15 @@ import { register } from 'swiper/element/bundle';
 register();
 
 @Component({
-  selector: 'app-tab2',
-  templateUrl: 'tab2.page.html',
-  styleUrls: ['tab2.page.scss'],
+  selector: 'app-home',
+  templateUrl: 'home.page.html',
+  styleUrls: ['home.page.scss'],
   standalone: true,
   imports: [IonHeader, IonToolbar, IonTitle, IonContent, ExploreContainerComponent, IonSearchbar, IonCard, IonCardHeader, IonCardContent, IonCardTitle, IonCardSubtitle, IonIcon,  IonFab, IonFabButton, IonLabel],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 
-export class Tab2Page {
+export class HomePage {
 
   slideOpts = {
     slidesPerView: 1.2,
