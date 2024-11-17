@@ -64,14 +64,14 @@ export class CalendarPage implements OnInit {
         start: '2024-11-11T10:30:00',
         end: '2024-11-11T11:30:00',
         allDay: false,
-        url: '/tabs/chat'
+        url: '/offer/1'
       },
       {
         id: 'b',
         title: 'sample',
         start: '2024-11-11',
         end: '2024-11-11',
-        url: '/tabs/home'
+        url: '/offer/2'
       }
     ],
     height: 'auto'

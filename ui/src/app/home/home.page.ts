@@ -32,6 +32,10 @@ export class HomePage {
     addIcons({ add });
   }
 
+  createIndirectOffer() {
+    this.router.navigate(['indirect-offer']);
+  }
+
   goToSearch() {
     this.router.navigate(['search']);
   }
