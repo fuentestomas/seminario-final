@@ -44,7 +44,7 @@ export class OfferPage implements OnInit {
         // For this example, we'll just set some dummy data
         this.offer = {
           serviceType: 'type1',
-          description: 'This is a sample offer description',
+          description: 'Necesito instalar 3 tomacorrientes',
           startTime: '10:00',
           endTime: '18:00',
           images: [
