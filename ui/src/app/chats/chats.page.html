@@ -14,7 +14,7 @@
   </ion-header>
 
   <ion-list>
-    <ion-item *ngFor="let item of items; let index">
+    <ion-item *ngFor="let item of items; let index" (click)="goToChat()">
       <ion-avatar slot="start">
         <img [src]="'https://picsum.photos/80/80?random=' + index" alt="avatar" />
       </ion-avatar>

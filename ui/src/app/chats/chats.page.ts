@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IonHeader, IonToolbar, IonTitle, IonContent, IonList, IonLabel, IonAvatar, IonItem } from '@ionic/angular/standalone';
 import { ExploreContainerComponent } from '../explore-container/explore-container.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-chats',
@@ -14,10 +15,14 @@ export class ChatsPage implements OnInit {
 
   items = ['Javier Valicenti', 'Omar Juarez', 'Agustin Romero'];
   
-  constructor() { }
+  constructor(private router: Router) { }
 
   ngOnInit() {
     
+  }
+
+  goToChat() {
+    this.router.navigate(['chat']);
   }
 
 }

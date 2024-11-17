@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonHeader, IonToolbar, IonTitle, IonContent, IonAvatar, IonIcon, IonFooter, IonButton, IonInput } from '@ionic/angular/standalone';
+import { IonHeader, IonToolbar, IonTitle, IonContent, IonAvatar, IonIcon, IonFooter, IonButton, IonInput, IonBackButton, IonButtons } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import { send } from 'ionicons/icons';
 
@@ -16,7 +16,7 @@ interface Message {
   templateUrl: 'chat.page.html',
   styleUrls: ['chat.page.scss'],
   standalone: true,
-  imports: [CommonModule, FormsModule, IonHeader, IonToolbar, IonTitle, IonContent, IonAvatar, IonIcon, IonFooter, IonButton, IonInput]
+  imports: [CommonModule, FormsModule, IonHeader, IonToolbar, IonTitle, IonContent, IonAvatar, IonIcon, IonFooter, IonButton, IonInput, IonBackButton, IonButtons]
 })
 export class ChatPage {
   messages: Message[] = [
