@@ -10,7 +10,7 @@
       <ion-label>Inicio</ion-label>
     </ion-tab-button>
 
-    <ion-tab-button tab="calendar" href="/calendar">
+    <ion-tab-button tab="calendar" href="/calendar" *ngIf="role === 'worker'">
       <ion-icon name="calendar"></ion-icon>
       <ion-label>Calendario</ion-label>
     </ion-tab-button>

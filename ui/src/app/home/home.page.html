@@ -1,10 +1,19 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>
+<ion-header [translucent]="false">
+  <ion-toolbar color="primary">
+    <ion-title size="large">
       Inicio
     </ion-title>
   </ion-toolbar>
-  <ion-searchbar [debounce]="1000" animated="true" placeholder="Buscar"></ion-searchbar>
+  <!-- <ion-toolbar color="primary"> -->
+  <ion-toolbar class="searchbar-toolbar">
+    <ion-searchbar 
+      [debounce]="1000" 
+      animated="true" 
+      placeholder="Buscar"
+      color="light"
+      class="custom-searchbar"
+    ></ion-searchbar>
+  </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">

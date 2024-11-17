@@ -19,3 +19,15 @@ ion-fab-button {
 ion-fab {
     contain: layout;
 }
+
+.searchbar-toolbar {
+    --background: var(--ion-color-primary);
+    padding-top: 0;
+    padding-bottom: 8px;
+}
+.custom-searchbar {
+    --background: var(--ion-color-light);
+    --border-radius: 8px;
+    --box-shadow: none;
+    --placeholder-color: var(--ion-color-medium);
+}
