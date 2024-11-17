@@ -1,0 +1,23 @@
+.content-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 100%;
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+.logo-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 2rem;
+}
+
+.app-logo {
+    max-width: 150px;
+    height: auto;
+}
+
+form {
+    width: 100%;
+}

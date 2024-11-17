@@ -1,0 +1,66 @@
+<ion-content class="ion-padding">
+  <div class="content-container">
+    <div class="logo-container">
+      <img src="../../assets/logo.png" alt="Logo de la aplicación" class="app-logo">
+    </div>
+    
+    <form (ngSubmit)="onSubmit()">
+      <ion-item>
+        <ion-input label="Correo electronico" labelPlacement="floating" type="email" [(ngModel)]="email" name="email" required></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-input label="Contraseña" labelPlacement="floating" type="password" [(ngModel)]="password" name="password" required></ion-input>
+      </ion-item>
+
+      <ion-button id="open-modal" expand="block" type="submit" class="ion-margin-top" color="primary">
+        Iniciar sesión
+      </ion-button>
+    </form>
+
+    <div class="ion-text-center ion-margin-top">
+      <ion-button expand="block" type="button" color="secondary">
+        Crear Cuenta
+      </ion-button>
+    </div>
+
+    <div class="ion-text-center">
+      <ion-button fill="clear" size="small" (click)="forgotPassword()">
+        ¿Olvidaste tu contraseña?
+      </ion-button>
+    </div>
+  </div>
+
+  <ion-modal trigger="open-modal" (willDismiss)="onWillDismiss($event)">
+    <ng-template>
+      <ion-header>
+        <ion-toolbar>
+          <ion-buttons slot="start">
+            <ion-button (click)="cancel()">Cancelar</ion-button>
+          </ion-buttons>
+          <!-- <ion-title>Welcome</ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="confirm()" [strong]="true">Confirm</ion-button>
+          </ion-buttons> -->
+        </ion-toolbar>
+      </ion-header>
+      <ion-content class="ion-padding">
+        <ion-button (click)="login('employer')" expand="block" type="submit" class="ion-margin-top" color="primary">
+          Iniciar sesión como Contratante
+        </ion-button>
+        <ion-button (click)="login('worker')" expand="block" type="submit" class="ion-margin-top" color="secondary">
+          Iniciar sesión como Prestador
+        </ion-button>
+        <!-- <ion-item>
+          <ion-input
+            label="Enter your name"
+            labelPlacement="stacked"
+            type="text"
+            placeholder="Your name"
+            [(ngModel)]="name"
+          ></ion-input>
+        </ion-item> -->
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+</ion-content>
