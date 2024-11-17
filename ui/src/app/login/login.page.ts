@@ -28,14 +28,16 @@ export class LoginPage implements OnInit {
     console.log('Iniciar sesión con:', this.email, this.password);
   }
 
-  login(value: string) {
-    console.log(value);
+  login(role: string) {
+    console.log(role);
+    localStorage.setItem('role', role);
     this.modal.dismiss();
-    this.router.navigate(['']);
+    this.router.navigate(['tabs', 'home']);
   }
 
   goToRegister() {
     console.log('Navegar a la página de registro');
+    this.router.navigate(['register']);
   }
 
   forgotPassword() {

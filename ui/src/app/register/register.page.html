@@ -1,0 +1,105 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="login"></ion-back-button> 
+    </ion-buttons>
+    <ion-title>Registro</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="ion-padding">
+  <form (ngSubmit)="onSubmit()">
+    <div class="avatar-container">
+      <div class="avatar" (click)="selectProfilePicture()">
+        <img [src]="profileImageUrl" *ngIf="profileImageUrl" alt="Profile Picture">
+        <ion-icon name="camera" *ngIf="!profileImageUrl"></ion-icon>
+      </div>
+    </div>
+
+    <ion-input 
+      type="email" 
+      [(ngModel)]="user.email" 
+      name="email" 
+      labelPlacement="floating" 
+      label="Correo electrónico"
+      required
+    ></ion-input>
+
+    <ion-input 
+      type="password" 
+      [(ngModel)]="user.password" 
+      name="password" 
+      labelPlacement="floating" 
+      label="Contraseña"
+      required
+    ></ion-input>
+
+    <ion-input 
+      type="text" 
+      [(ngModel)]="user.firstName" 
+      name="firstName" 
+      labelPlacement="floating" 
+      label="Nombre"
+      required
+    ></ion-input>
+
+    <ion-input 
+      type="text" 
+      [(ngModel)]="user.lastName" 
+      name="lastName" 
+      labelPlacement="floating" 
+      label="Apellido"
+      required
+    ></ion-input>
+
+    <ion-input 
+      type="tel" 
+      [(ngModel)]="user.phone" 
+      name="phone" 
+      labelPlacement="floating" 
+      label="Número de teléfono"
+      required
+    ></ion-input>
+
+    <ion-input 
+      #addressInput
+      type="text" 
+      [(ngModel)]="user.address" 
+      name="address" 
+      labelPlacement="floating" 
+      label="Dirección"
+      required
+    ></ion-input>
+
+    <ion-button expand="block" type="submit" class="ion-margin-top" *ngIf="role === 'employer'">
+      Registrarse
+    </ion-button>
+    <ion-button expand="block" type="submit" class="ion-margin-top" *ngIf="role === 'worker'">
+      Continuar
+    </ion-button>
+  </form>
+
+  <!-- Modal -->
+  <ion-modal (willDismiss)="onWillDismiss($event)">
+    <ng-template>
+      <ion-header>
+        <ion-toolbar>
+          <ion-buttons slot="start">
+            <ion-back-button defaultHref="login" (click)="dismissModal()"></ion-back-button> 
+          </ion-buttons>
+          <ion-title size="large">Registro</ion-title>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content class="ion-padding">
+        <div class="content-container">
+          <ion-button (click)="selectRole('employer')" expand="block" size="large" class="ion-margin-top" color="primary">
+            Quiero contratar servicios
+          </ion-button>
+          <ion-button (click)="selectRole('worker')" expand="block" size="large" class="ion-margin-top" color="secondary">
+            Quiero prestar servicios
+          </ion-button>
+        </div>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+</ion-content>
