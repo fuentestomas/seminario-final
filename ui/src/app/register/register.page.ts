@@ -6,6 +6,7 @@ import { OverlayEventDetail } from '@ionic/core/components';
 import { addIcons } from 'ionicons';
 import { camera } from 'ionicons/icons';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
+import { Router } from '@angular/router';
 
 declare var google: any;
 
@@ -36,7 +37,8 @@ export class RegisterPage implements OnInit {
 
   constructor(
     private sanitizer: DomSanitizer,
-    private ngZone: NgZone)
+    private ngZone: NgZone,
+    private router: Router)
     {
       addIcons({ camera })
     }
@@ -46,7 +48,12 @@ export class RegisterPage implements OnInit {
   }
 
   onSubmit() {
-
+    if (this.role === 'employer') {
+      this.router.navigate(['tabs', 'home']);
+    }
+    else {
+      this.router.navigate(['register-worker']);
+    }
   }
 
   ionViewWillEnter() {

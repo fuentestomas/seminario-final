@@ -1,0 +1,62 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="register"></ion-back-button> 
+    </ion-buttons>
+    <ion-title>Registro</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="ion-padding">
+  <form (ngSubmit)="onSubmit()">
+    <ion-input 
+      type="text" 
+      [(ngModel)]="user.businessName" 
+      name="businessName" 
+      labelPlacement="floating" 
+      label="Nombre de emprendimiento"
+      required
+    ></ion-input>
+
+    <ion-textarea 
+      [(ngModel)]="user.description" 
+      name="description" 
+      labelPlacement="floating" 
+      label="Descripcion"
+      rows="6"
+      fill="solid"
+      required
+    ></ion-textarea>
+
+    <ion-select
+      label="Categorias"
+      placeholder="Seleccione las que apliquen"
+      [multiple]="true"
+      >
+      <ion-select-option value="1">Electricidad</ion-select-option>
+      <ion-select-option value="2">Plomeria</ion-select-option>
+      <ion-select-option value="3">Carpinteria</ion-select-option>
+    </ion-select>
+
+    <ion-item>
+      <ion-label position="stacked">Horario de atención</ion-label>
+      <ion-grid>
+        <ion-row>
+          <ion-col size="5">
+            <ion-input type="time" placeholder="Desde"></ion-input> 
+          </ion-col>
+          <ion-col size="2">
+            -
+          </ion-col>
+          <ion-col size="5">
+            <ion-input type="time" placeholder="Hasta"></ion-input>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-item>
+
+    <ion-button expand="block" type="submit" class="ion-margin-top">
+      Registrarse
+    </ion-button>
+  </form>
+</ion-content>
