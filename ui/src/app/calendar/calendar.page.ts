@@ -60,7 +60,7 @@ export class CalendarPage implements OnInit {
     events: [
       {
         id: 'a',
-        title: 'my event',
+        title: 'Arreglo baño',
         start: '2024-11-11T10:30:00',
         end: '2024-11-11T11:30:00',
         allDay: false,
@@ -68,9 +68,9 @@ export class CalendarPage implements OnInit {
       },
       {
         id: 'b',
-        title: 'sample',
-        start: '2024-11-11',
-        end: '2024-11-11',
+        title: 'Cañeria rota',
+        start: '2024-11-13T09:30:00',
+        end: '2024-11-13T11:30:00',
         url: '/offer/2'
       }
     ],
