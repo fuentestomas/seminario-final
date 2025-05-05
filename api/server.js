@@ -13,7 +13,7 @@ mongoose.connect('mongodb://localhost:27017/seminario').then(() => {
 });
 
 // Configuración del puerto
-const PORT = process.env.PORT || 10500;
+const PORT = process.env.PORT || 3000;
 app.set('port', PORT);
 
 // Creación del servidor HTTP
