@@ -53,52 +53,6 @@ class ModelMethods {
         }
 
         let result = await model.create(data);
-        
-        if (data.uid) {
-            const googleUser = await auth.getUserByEmail(data.emailAddress)
-                .then((userRecord) => {
-                    console.log(`Successfully fetched user data: ${userRecord}`);
-                    return userRecord.toJSON();
-                })
-                .catch((error) => {
-                    console.log('Error fetching user data:', error);
-                });
-            await auth.deleteUser(data.uid)
-                .then(async () => {
-                    console.log('Successfully deleted user');
-                })
-                .catch((error) => {
-                    console.log('Error deleting user:', error);
-                });
-            //console.log('Google user', googleUser)
-            let firebaseUser = [{
-                uid: result._id.toString(),
-                displayName: googleUser.displayName,
-                email: googleUser.email,
-                photoURL: googleUser.photoURL,
-                emailVerified: true,
-                metadata: googleUser.metadata,
-                // User with Google provider.
-                providerData: [
-                    {
-                    uid: googleUser.providerData[0].uid,
-                    email: googleUser.email,
-                    displayName: googleUser.displayName,
-                    photoURL: googleUser.photoURL,
-                    providerId: 'google.com',
-                    },
-                ],
-            }]
-            //console.log(firebaseUser)
-            await auth.importUsers(firebaseUser)
-                .then((userRecord) => {
-                    // See the UserRecord reference doc for the contents of userRecord.
-                    console.log('userRecord', userRecord)
-                })
-                .catch((error) => {
-                    console.log('Error creating new user:', error);
-                });
-        }
 
         return result;
     }
