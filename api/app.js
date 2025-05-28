@@ -37,7 +37,7 @@ function loadRoutes() {
 
 loadRoutes();
 
-//app.use('/', (req, res) => res.send('Bienvenido a mi api'));
+app.use('/', (req, res) => res.send('Bienvenido a mi api'));
 
 module.exports = {
     app
