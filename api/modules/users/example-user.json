@@ -1,0 +1,14 @@
+{
+  "fullName": "Juan Perez",
+  "emailAddress": "juan.perez@example.com",
+  "password": "securePassword123",
+  "role": "worker",
+  "work": "Electricista",
+  "category": "64f1c2e2b8a4e2a1c8d7e9b1",
+  "description": "Especialista en instalaciones eléctricas residenciales y comerciales.",
+  "avgScore": 4.8,
+  "phoneNumber": "+54 9 11 1234-5678",
+  "address": "Av. Corrientes 1234, CABA, Argentina",
+  "profilePhoto": "https://example.com/profile/juan.jpg",
+  "businessName": "Servicios Eléctricos JP"
+}

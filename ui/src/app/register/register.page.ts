@@ -7,6 +7,7 @@ import { addIcons } from 'ionicons';
 import { camera } from 'ionicons/icons';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { Router } from '@angular/router';
+import { UsersService } from '../../services/users/users.service';
 
 declare var google: any;
 
@@ -24,13 +25,15 @@ export class RegisterPage implements OnInit {
   role!: string;
 
   user = {
-    email: '',
+    emailAddress: '',
     password: '',
     firstName: '',
     lastName: '',
-    phone: '',
+    phoneNumber: '',
     address: '',
-    profilePicture: null as File | null
+    profilePhoto: null as File | null,
+    role: '',
+    fullName: ''
   };
 
   profileImageUrl: SafeUrl | null = null;
@@ -38,7 +41,8 @@ export class RegisterPage implements OnInit {
   constructor(
     private sanitizer: DomSanitizer,
     private ngZone: NgZone,
-    private router: Router)
+    private router: Router,
+    private usersService: UsersService)
     {
       addIcons({ camera })
     }
@@ -48,12 +52,22 @@ export class RegisterPage implements OnInit {
   }
 
   onSubmit() {
+    this.user.fullName = `${this.user.firstName} ${this.user.lastName}`;
+    this.user.role = localStorage.getItem('role') || '';
     if (this.role === 'employer') {
-      this.router.navigate(['tabs', 'home']);
+      this.registerUser(this.user);
     }
     else {
-      this.router.navigate(['register-worker']);
+      this.router.navigate(['register-worker'], { state: { user: this.user } });
     }
+  }
+
+  registerUser(userData: any) {
+    console.log(userData);
+    this.usersService.registerUser(userData).subscribe({
+      next: () => this.router.navigate(['tabs', 'home']),
+      error: (err) => { /* handle error */ }
+    });
   }
 
   ionViewWillEnter() {
@@ -86,7 +100,7 @@ export class RegisterPage implements OnInit {
       const target = event.target as HTMLInputElement;
       const file = target.files?.[0];
       if (file) {
-        this.user.profilePicture! = file;
+        this.user.profilePhoto! = file;
         const reader = new FileReader();
         reader.onload = (e: ProgressEvent<FileReader>) => {
           if (e.target?.result) {

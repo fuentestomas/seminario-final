@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonBackButton, IonButton, IonButtons, IonCol, IonContent, IonGrid, IonHeader, IonInput, IonItem, IonLabel, IonRow, IonSelect, IonSelectOption, IonTextarea, IonTitle, IonToolbar } from '@ionic/angular/standalone';
 import { Router } from '@angular/router';
+import { UsersService } from '../../services/users/users.service';
 
 @Component({
   selector: 'app-register-worker',
@@ -13,18 +14,26 @@ import { Router } from '@angular/router';
 })
 export class RegisterWorkerPage implements OnInit {
 
-  user = {
+  user: any = {
     businessName: '',
     description: ''
-  }
+  };
 
-  constructor(private router: Router) { }
+  constructor(private router: Router, private usersService: UsersService) {
+    const nav = this.router.getCurrentNavigation();
+    if (nav?.extras.state && nav.extras.state['user']) {
+      this.user = { ...nav.extras.state['user'], ...this.user };
+    }
+  }
 
   ngOnInit() {
   }
 
   onSubmit() {
-    this.router.navigate(['tabs', 'home']);
+    this.usersService.registerUser(this.user).subscribe({
+      next: () => this.router.navigate(['tabs', 'home']),
+      error: (err) => { /* handle error */ }
+    });
   }
 
 }
