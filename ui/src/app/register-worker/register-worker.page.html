@@ -32,10 +32,10 @@
       label="Categorias"
       placeholder="Seleccione las que apliquen"
       [multiple]="true"
-      >
-      <ion-select-option value="1">Electricidad</ion-select-option>
-      <ion-select-option value="2">Plomeria</ion-select-option>
-      <ion-select-option value="3">Carpinteria</ion-select-option>
+      [(ngModel)]="user.categories"
+      [ngModelOptions]="{standalone: true}"
+    >
+      <ion-select-option *ngFor="let category of categories" [value]="category._id">{{ category.name }}</ion-select-option>
     </ion-select>
 
     <ion-item>

@@ -11,19 +11,21 @@ const ModelSchema = new mongoose.Schema(
             type: String,
             required: true,
             enum: ['employer', 'worker'],
-            default: ['employer']
+            default: 'employer'
         },
         work: { type: String },
-        category: {
+        categories: [{
             type: mongoose.Schema.Types.ObjectId,
             ref: 'categories'
-        },
+        }],
         description: { type: String },
         avgScore: { type: Number },
         phoneNumber: { type: String },
         address: { type: String },
         profilePhoto: { type: String },
-        businessName: { type: String }
+        businessName: { type: String },
+        openingHour: { type: String },
+        closingHour: { type: String }
     },
     { timestamps: true }
 );

@@ -20,13 +20,8 @@ class ModelMethods {
         return result;
     };
 
-    getAll(filters, populates) {
-        if (arguments.length == 0) {
-            filters = {};
-            populates = {};
-        }
-        
-        let result = model.find()
+    getAll() {
+        let result = model.find().sort({ name: 1 })
             .then((result) => {
                 return result;
             });
