@@ -34,6 +34,73 @@ class ModelMethods {
         return result;
     };
 
+    getEmployerOffers(userId) {
+        let allUserOffers = model.find({ employerId: userId })
+            .then((res) => {
+                return res;
+            });
+        
+        let acceptedOffers = model
+            .find({
+                employerId: userId,
+                status: {$in: ['completed', 'inProgress']}
+            })
+            .populate('workerId')
+            .then((res) => {
+                return res;
+            });
+
+        let toReturn = {
+            offers: allUserOffers,
+            acceptedOffers: acceptedOffers
+        }
+        return toReturn;
+    }
+
+    getWorkerOffers(userId) {
+        let allUserOffers = model.find({ workerId: userId })
+            .then((res) => {
+                return res;
+            });
+        
+        let indirectOffers = model
+            .find({
+                status: 'open',
+            })
+            .populate('employerId')
+            .then((res) => {
+                return res;
+            });
+        
+        let pendingOffers = model
+            .find({
+                workerId: userId,
+                status: 'pending'
+            })
+            .then((res) => {
+                return res;
+            });
+
+        let acceptedOffers = model
+            .find({
+                workerId: userId,
+                status: {$in: ['completed', 'inProgress']}
+            })
+            .populate('employerId')
+            .then((res) => {
+                return res;
+            });
+
+        let toReturn = {
+            offers: allUserOffers,
+            indirectOffers: indirectOffers,
+            pendingOffers: pendingOffers,
+            acceptedOffers: acceptedOffers
+        }
+
+        return toReturn;
+    }
+
     update(id, newData) {
         let result = model.findByIdAndUpdate(id, newData, { returnDocument: 'after' })
             .then((result) => {

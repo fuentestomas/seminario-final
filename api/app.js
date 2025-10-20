@@ -3,8 +3,13 @@ const fs = require('fs');
 const path = require('path');
 const cors = require('cors');
 const bodyParser = require('body-parser')
+const morgan = require('morgan');
 
 const app = express();
+
+// Use morgan with an explicit stream to ensure logs go to stdout when running via npm start
+const morganFormat = process.env.NODE_ENV === 'production' ? 'combined' : 'dev';
+app.use(morgan(morganFormat, { stream: process.stdout }));
 
 let port = 3000;
 app.set('port', port);

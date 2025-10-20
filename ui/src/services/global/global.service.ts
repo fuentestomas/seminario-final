@@ -13,6 +13,7 @@ export class GlobalService {
   }
 
   public getRequest(route: string) {
+    console.log('GET Request to:', `${environment.apiUrl}${route}`);
     return this.http.get(`${environment.apiUrl}${route}`);
   }
 }

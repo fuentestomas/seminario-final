@@ -37,6 +37,28 @@ router.get('/:id', async (req, res) => {
     }
 });
 
+router.get('/employerOffers/:userId', async (req, res) => {
+    try {
+        let result = await modelMethods.getEmployerOffers(req.params.userId);
+        res.send(result);
+    }
+    catch (e) {
+        console.log(e);
+        res.sendStatus(400);
+    }
+});
+
+router.get('/workerOffers/:userId', async (req, res) => {
+    try {
+        let result = await modelMethods.getWorkerOffers(req.params.userId);
+        res.send(result);
+    }
+    catch (e) {
+        console.log(e);
+        res.sendStatus(400);
+    }
+});
+
 router.put('/:id', async (req, res) => {
     try {
         let result = await modelMethods.update(req.params.id, req.body);
