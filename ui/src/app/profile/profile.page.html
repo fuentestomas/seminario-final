@@ -15,9 +15,9 @@
     <div class="rating" style="display: flex; gap: 0.5rem;">
       <ion-icon 
         *ngFor="let star of [1, 2, 3, 4, 5]; let i = index"
-        [name]="i < user.currentRating ? 'star' : 'star-outline'"
-        [color]="i < user.currentRating ? 'warning' : 'medium'"
-        [attr.aria-label]="i < user.currentRating ? 'Filled star' : 'Empty star'"
+        [name]="i < user.avgScore ? 'star' : 'star-outline'"
+        [color]="i < user.avgScore ? 'warning' : 'medium'"
+        [attr.aria-label]="i < user.avgScore ? 'Filled star' : 'Empty star'"
         class="star-icon">
       </ion-icon>
     </div>
@@ -33,7 +33,7 @@
   <ion-list>
     <ion-item>
       <ion-label position="floating">Nombre</ion-label>
-      <ion-input [(ngModel)]="user.name" [disabled]="isDetail"></ion-input>
+      <ion-input [(ngModel)]="user.firstName" [disabled]="isDetail"></ion-input>
     </ion-item>
 
     <ion-item>
@@ -52,7 +52,7 @@
     </ion-item>
   </ion-list>
 
-  <ion-button expand="block" *ngIf="isDetail" (click)="goToOffer()">Enviar oferta</ion-button>
+  <ion-button expand="block" *ngIf="isDetail && user.role === 'worker'" (click)="goToOffer()">Enviar oferta</ion-button>
 
   <ion-button expand="block" *ngIf="!isDetail" disabled>Guardar</ion-button>
 

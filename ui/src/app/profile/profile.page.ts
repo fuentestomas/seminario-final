@@ -7,6 +7,7 @@ import { Router, RouterModule, ActivatedRoute } from '@angular/router';
 import { addIcons } from 'ionicons';
 import { star, starOutline, camera } from 'ionicons/icons';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
+import { UsersService } from 'src/services/users/users.service';
 
 @Component({
   selector: 'app-profile',
@@ -20,11 +21,13 @@ export class ProfilePage {
   isDetail: boolean = false;
 
   user = {
-    name: 'Liam',
-    lastName: 'Merlo',
-    phoneNumber: '3519999999',
-    address: 'Ituzaingo 484',
-    currentRating: 4
+    _id: '',
+    firstName: '',
+    lastName: '',
+    phoneNumber: '',
+    address: '',
+    role: '',
+    avgScore: 4
   }
 
   profileImageUrl: SafeUrl | null = null;
@@ -39,7 +42,8 @@ export class ProfilePage {
   
   constructor(
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private usersService: UsersService,
   ) {
     addIcons({ star, starOutline, camera })
   }
@@ -50,12 +54,17 @@ export class ProfilePage {
       if (userId) {
         this.isDetail = true;
         this.profileImageUrl = "../../assets/avatar.png"
+        this.usersService.getUserById(userId).subscribe({
+          next: (res) => {
+            this.user = res;
+          }
+        });
       }
     });
   }
 
   goToOffer() {
-    this.router.navigate(['offer']);
+    this.router.navigate(['offer'], { state: { userId: this.user._id } });
   }
 
   logout() {

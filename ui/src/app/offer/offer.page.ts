@@ -2,10 +2,12 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonBackButton, IonButton, IonButtons, IonContent, IonDatetimeButton, IonHeader, IonIcon, IonInput, IonItem, IonLabel, IonModal, IonSelect, IonSelectOption, IonTextarea, IonTitle, IonToolbar } from '@ionic/angular/standalone';
-import { ActivatedRoute, RouterModule } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { OverlayEventDetail } from '@ionic/core/components';
 import { addIcons } from 'ionicons';
 import { add, star } from 'ionicons/icons';
+import { CategoriesService } from 'src/services/categories/categories.service';
+import { OffersService } from 'src/services/offers/offers.service';
 
 @Component({
   selector: 'app-offer',
@@ -22,11 +24,12 @@ export class OfferPage implements OnInit {
   isDetail: boolean = false;
   offer: any = {
     title: '',
-    serviceType: '',
+    category: '',
     description: '',
     startTime: '',
     endTime: '',
-    images: []
+    photos: [],
+    workerId: '',
   };
   image!: string;
 
@@ -37,10 +40,20 @@ export class OfferPage implements OnInit {
 
   role!: string | null;
 
+  categories: any[] = [];
+
   constructor(
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private router: Router,
+    private categoriesService: CategoriesService,
+    private offersService: OffersService
   ) {
     addIcons({ add, star });
+    const nav = this.router.getCurrentNavigation();
+    if (nav?.extras.state && nav.extras.state['userId']) {
+      this.offer.workerId = nav.extras.state['userId'];
+      console.log('Worker ID:', this.offer.workerId);
+    }
   }
 
   ngOnInit() {
@@ -49,8 +62,7 @@ export class OfferPage implements OnInit {
       const offerId = params.get('id');
       if (offerId) {
         this.isDetail = true;
-        // Here you would typically fetch the offer details using the ID
-        // For this example, we'll just set some dummy data
+
         this.offer = {
           title: 'Instalacion electrica',
           serviceType: 'type1',
@@ -70,10 +82,21 @@ export class OfferPage implements OnInit {
         }
       }
     });
+    this.categoriesService.getAllCategories().subscribe({
+      next: (res) => {
+        this.categories = res;
+      }
+    });
   }
 
   onSubmit() {
-
+    if (this.offer.workerId) {
+      this.offersService.postCreateDirectOffer(this.offer).subscribe({
+        next: (res) => {
+          this.router.navigate(['tabs', 'home']);
+        }
+      });
+    }
   }
 
   finishJob() {

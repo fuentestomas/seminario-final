@@ -15,9 +15,8 @@
 
     <ion-item>
       <ion-label position="stacked">Tipo de servicio</ion-label>
-      <ion-select name="category" [disabled]="isDetail" [(ngModel)]="offer.serviceType" placeholder="Selecciona categoria">
-        <ion-select-option value="type1">Electricidad</ion-select-option>
-        <ion-select-option value="type2">Gas</ion-select-option>
+      <ion-select name="category" [disabled]="isDetail" [(ngModel)]="offer.category" placeholder="Selecciona categoria">
+        <ion-select-option *ngFor="let category of categories" [value]="category._id">{{ category.name }}</ion-select-option>
       </ion-select>
     </ion-item>
 
@@ -41,10 +40,10 @@
     </ion-item>
 
     <div class="image-grid">
-      <div *ngFor="let image of offer.images; let i = index" class="image-container">
+      <div *ngFor="let image of offer.photos; let i = index" class="image-container">
         <img [src]="image" (click)="openFullscreen(image)" />
       </div>
-      <div *ngIf="!isDetail && offer.images.length < 3" class="image-container add-image" (click)="addImage()">
+      <div *ngIf="!isDetail && offer.photos.length < 3" class="image-container add-image" (click)="addImage()">
         <ion-icon name="add"></ion-icon>
       </div>
     </div>

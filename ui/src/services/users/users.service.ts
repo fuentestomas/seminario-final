@@ -16,4 +16,8 @@ export class UsersService {
       new HttpParams()
     );
   }
+
+  getUserById(userId: string): Observable<any> {
+    return this.globalService.getRequest(`/users/${userId}`);
+  }
 }
