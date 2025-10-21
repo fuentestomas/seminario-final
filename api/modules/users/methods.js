@@ -65,6 +65,58 @@ class ModelMethods {
         return result;
     };
 
+    getSearchWorkers(req) {
+        const category = req.query.categoryFilter;
+        const proximity = req.query.proximityFilter;
+        const rawSearchText = req.query.searchText;
+
+        const query = {};
+
+        if (category) {
+            if (typeof category === 'string' && category.indexOf(',') !== -1) {
+                const ids = category.split(',').map(c => c.trim()).filter(Boolean);
+                query.categories = { $in: ids };
+            } else {
+                query.categories = category;
+            }
+        }
+
+        // if (proximity) {
+        //     query.proximity = proximity;
+        // }
+
+        let searchText = null;
+        if (rawSearchText) {
+            try {
+                searchText = decodeURIComponent(rawSearchText);
+            } catch (e) {
+                searchText = rawSearchText;
+            }
+        }
+
+        if (searchText) {
+            query.$or = [
+                { fullName: { $regex: searchText, $options: 'i' } },
+                { description: { $regex: searchText, $options: 'i' } }
+            ];
+        }
+
+        console.log('Search workers query:', JSON.stringify(query));
+
+        let result = model.find(query).exec();
+
+        return result;
+    }
+
+    update(id, newData) {
+        let result = model.findByIdAndUpdate(id, newData, { returnDocument: 'after' })
+            .then((result) => {
+                return result;
+            });
+
+        return result;
+    }
+
     update(id, newData) {
         let result = model.findByIdAndUpdate(id, newData, { returnDocument: 'after' })
             .then((result) => {

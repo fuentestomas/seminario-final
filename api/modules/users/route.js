@@ -49,6 +49,17 @@ router.get('/', async (req, res) => {
     }
 });
 
+router.get('/searchWorkers', async (req, res) => {
+    try {
+        let result = await modelMethods.getSearchWorkers(req);
+        res.send(result);
+    }
+    catch (e) {
+        console.log(e);
+        res.sendStatus(400);
+    }
+});
+
 router.get('/:id', async (req, res) => {
     try {
         let result = await modelMethods.getById(req.params.id);

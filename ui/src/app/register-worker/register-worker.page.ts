@@ -23,7 +23,11 @@ export class RegisterWorkerPage implements OnInit {
     categories: []
   };
 
-  constructor(private router: Router, private usersService: UsersService, private categoriesService: CategoriesService) {
+  constructor(
+    private router: Router,
+    private usersService: UsersService,
+    private categoriesService: CategoriesService)
+  {
     const nav = this.router.getCurrentNavigation();
     if (nav?.extras.state && nav.extras.state['user']) {
       this.user = { ...nav.extras.state['user'], ...this.user };
