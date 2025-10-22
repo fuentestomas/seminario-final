@@ -48,7 +48,7 @@
       </div>
     </div>
 
-    <ion-button *ngIf="!isDetail" expand="block" >Enviar oferta</ion-button>
+    <ion-button *ngIf="!isDetail" expand="block" (click)="createOffer()">Enviar oferta</ion-button>
   <!-- </form> -->
 
   <div *ngIf="inProgress" class="ion-padding">

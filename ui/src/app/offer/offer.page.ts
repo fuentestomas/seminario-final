@@ -89,7 +89,7 @@ export class OfferPage implements OnInit {
     });
   }
 
-  onSubmit() {
+  createOffer() {
     if (this.offer.workerId) {
       this.offersService.postCreateDirectOffer(this.offer).subscribe({
         next: (res) => {

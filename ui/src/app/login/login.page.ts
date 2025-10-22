@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonButton, IonButtons, IonContent, IonHeader, IonInput, IonItem, IonLabel, IonModal, IonTitle, IonToolbar } from '@ionic/angular/standalone';
 import { OverlayEventDetail } from '@ionic/core/components';
+import { UsersService } from 'src/services/users/users.service';
 
 @Component({
   selector: 'app-login',
@@ -19,13 +20,23 @@ export class LoginPage implements OnInit {
   password: string = '';
   name: string = '';
 
-  constructor(private router: Router) {}
+  constructor(
+    private router: Router,
+    private usersService: UsersService
+  ) {}
 
   ngOnInit() {
   }
 
   async onSubmit() {
     console.log('Iniciar sesión con:', this.email, this.password);
+    this.usersService.loginUser({ emailAddress: this.email, password: this.password }).subscribe({
+      next: (res) => {
+        localStorage.setItem('userId', res._id);
+        localStorage.setItem('role', res.role);
+        this.router.navigate(['tabs', 'home']);
+      }
+    });
   }
 
   login(role: string) {

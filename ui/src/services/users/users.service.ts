@@ -9,6 +9,14 @@ import { Observable } from 'rxjs';
 export class UsersService {
   constructor(private globalService: GlobalService) {}
 
+  loginUser(credentials: any): Observable<any> {
+    return this.globalService.postRequest(
+      '/users/login',
+      credentials,
+      new HttpParams()
+    );
+  }
+
   registerUser(userData: any): Observable<any> {
     return this.globalService.postRequest(
       '/users/register',
