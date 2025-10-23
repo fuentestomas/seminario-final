@@ -32,7 +32,7 @@ export class LoginPage implements OnInit {
     console.log('Iniciar sesión con:', this.email, this.password);
     this.usersService.loginUser({ emailAddress: this.email, password: this.password }).subscribe({
       next: (res) => {
-        localStorage.setItem('userId', res._id);
+        localStorage.setItem('user', JSON.stringify(res));
         localStorage.setItem('role', res.role);
         this.router.navigate(['tabs', 'home']);
       }

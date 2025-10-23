@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { IonHeader, IonToolbar, IonTitle, IonContent, IonList, IonLabel, IonAvatar, IonItem } from '@ionic/angular/standalone';
 import { ExploreContainerComponent } from '../explore-container/explore-container.component';
 import { Router } from '@angular/router';
+import { MessagesService } from 'src/services/messages/messages.service';
 
 @Component({
   selector: 'app-chats',
@@ -13,16 +14,51 @@ import { Router } from '@angular/router';
 })
 export class ChatsPage implements OnInit {
 
-  items = ['Javier Valicenti', 'Omar Juarez', 'Agustin Romero'];
+  items: any[] = [];
+
+  user!: any;
+  userId!: any;
+  role!: any;
   
-  constructor(private router: Router) { }
+  constructor(
+    private router: Router,
+    private messagesService: MessagesService
+  ) { }
 
   ngOnInit() {
-    
+    this.user = JSON.parse(localStorage.getItem('user') || '{}');
+    this.userId = this.user._id;
+
+    console.log('Retrieved userId:', this.userId);
+
+    this.role = localStorage.getItem('role');
+
+    this.messagesService.getUserChats(this.userId, this.role).subscribe({
+      next: (res) => {
+        console.log(res);
+        this.items = res;
+      }
+    });
   }
 
-  goToChat() {
-    this.router.navigate(['chat']);
+  goToChat(item: any) {
+    let employer;
+    let worker;
+
+    if (this.role === 'employer') {
+      employer = { _id: this.userId, fullName: this.user.fullName };
+      worker = item.chatUser;
+      worker._id = item.chatUser.id;
+    }
+    else {
+      worker = { _id: this.userId, fullName: this.user.fullName };
+      employer = item.chatUser;
+      employer._id = item.chatUser.id;
+    }
+
+    console.log('Navigating to chat with:', { employer, worker });
+
+    this.router.navigate(['chat', item._id], { state: { employer: employer, worker: worker } });
   }
 
 }

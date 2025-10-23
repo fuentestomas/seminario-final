@@ -66,7 +66,7 @@ export class RegisterPage implements OnInit {
     console.log(userData);
     this.usersService.registerUser(userData).subscribe({
       next: (res) => {
-        localStorage.setItem('userId', res._id);
+        localStorage.setItem('user', JSON.stringify(res));
         this.router.navigate(['tabs', 'home']);
       },
       error: (err) => { /* handle error */ }

@@ -1,4 +1,5 @@
 const model = require('./model');
+const chatModel = require('../chat/model');
 
 class ModelMethods {
 
@@ -11,11 +12,24 @@ class ModelMethods {
         return result;
     }
     
-    getById(id) {
-        let result = model.findById(id)
+    async getById(id) {
+        let result = await model.findById(id)
+            .populate(['workerId', 'employerId'])
             .then((result) => {
                 return result;
             });
+
+        if (result) {
+            let chat = await chatModel.findOne({
+                employerId: result.employerId._id,
+                workerId: result.workerId._id
+            })
+            .then((res) => {
+                return res ? res._id : null;
+            });
+
+            result.chatId = chat;
+        }
         
         return result;
     };
@@ -34,11 +48,14 @@ class ModelMethods {
         return result;
     };
 
-    getEmployerOffers(userId) {
-        let allUserOffers = model.find({ employerId: userId })
+    async getEmployerOffers(userId) {
+        let allUserOffers = await model.find({ employerId: userId })
+            .populate('workerId')
             .then((res) => {
                 return res;
             });
+
+        console.log('All user offers before adjustment:', allUserOffers);
         
         let acceptedOffers = model
             .find({
@@ -57,13 +74,8 @@ class ModelMethods {
         return toReturn;
     }
 
-    getWorkerOffers(userId) {
-        let allUserOffers = model.find({ workerId: userId })
-            .then((res) => {
-                return res;
-            });
-        
-        let indirectOffers = model
+    async getWorkerOffers(userId) {
+        let indirectOffers = await model
             .find({
                 status: 'open',
             })
@@ -72,16 +84,17 @@ class ModelMethods {
                 return res;
             });
         
-        let pendingOffers = model
+        let pendingOffers = await model
             .find({
                 workerId: userId,
                 status: 'pending'
             })
+            .populate('employerId')
             .then((res) => {
                 return res;
             });
 
-        let acceptedOffers = model
+        let acceptedOffers = await model
             .find({
                 workerId: userId,
                 status: {$in: ['completed', 'inProgress']}
@@ -92,11 +105,12 @@ class ModelMethods {
             });
 
         let toReturn = {
-            offers: allUserOffers,
             indirectOffers: indirectOffers,
             pendingOffers: pendingOffers,
             acceptedOffers: acceptedOffers
         }
+
+        console.log('Worker offers to return:', toReturn);
 
         return toReturn;
     }

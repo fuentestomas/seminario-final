@@ -1,9 +1,9 @@
 <ion-header [translucent]="false">
-  <ion-toolbar color="primary">
+  <!-- <ion-toolbar color="primary">
     <ion-title size="large">
       Inicio
     </ion-title>
-  </ion-toolbar>
+  </ion-toolbar> -->
   <!-- <ion-toolbar color="primary"> -->
   <ion-toolbar class="searchbar-toolbar" *ngIf="role === 'employer'">
     <ion-searchbar 
@@ -18,19 +18,19 @@
 
 <ion-content [fullscreen]="true">
   <div *ngIf="role === 'employer'">
-    <h1 class="ion-padding-horizontal">Mis trabajos</h1>
-    <swiper-container [slidesPerView]="1.2" [spaceBetween]="10" [centeredSlides]="true" class="ion-padding" style="height: 250px;">
-      <swiper-slide *ngFor="let item of myJobs">
-        <ion-card (click)="goToOffer(item)">
+    <h1 class="ion-padding-horizontal" style="padding-left: 25px;">Mis trabajos</h1>
+    <swiper-container [slidesPerView]="1.2" [spaceBetween]="5" [centeredSlides]="true" style="height: 200px; overflow: visible;">
+      <swiper-slide *ngFor="let item of myJobs;" style="overflow: visible;">
+        <ion-card (click)="goToOffer(item)" style="min-height: 180px; border-radius: 0.5rem; padding: 8px;;">
           <ion-card-header>
-            <div class="ion-justify-content-between ion-align-items-center" style="display: flex; flex-wrap: wrap; gap: 8px;">
+            <div class="ion-justify-content-between ion-align-items-left" style="display: flex; flex-wrap: wrap; gap: 6px; flex-direction: column;">
               <ion-card-title>{{ item.title }}</ion-card-title>
-              <ion-badge class="status-badge" color="success" *ngIf="item.status === 'completed'">Completado</ion-badge>
-              <ion-badge class="status-badge" color="warning" *ngIf="item.status === 'inProgress'">En progreso</ion-badge>
+              <ion-badge class="status-badge success-bg" *ngIf="item.status === 'completed'">Completado</ion-badge>
+              <ion-badge class="status-badge warning-bg" *ngIf="item.status === 'inProgress'">En progreso</ion-badge>
               <ion-badge class="status-badge" color="danger" *ngIf="item.status === 'rejected'">Rechazado</ion-badge>
               <ion-badge class="status-badge" color="medium" *ngIf="item.status === 'pending'">Pendiente</ion-badge>
             </div>
-            <ion-card-subtitle>{{ item.user.fullName }}</ion-card-subtitle>
+            <ion-card-subtitle>{{ item.workerId.fullName }} - {{ item.workerId.businessName }}</ion-card-subtitle>
           </ion-card-header>
           <ion-card-content>
             <p class="ion-text-wrap" style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">
@@ -44,14 +44,14 @@
 
   <div *ngIf="role === 'worker'">
     <h1 class="ion-padding-horizontal">Ofertas indirectas abiertas</h1>
-    <swiper-container [slidesPerView]="1.2" [spaceBetween]="10" [centeredSlides]="true" class="ion-padding" style="height: 250px;">
-      <swiper-slide *ngFor="let item of indirectOffers">
-        <ion-card (click)="goToOffer(item)">
+    <swiper-container [slidesPerView]="1.2" [spaceBetween]="5" [centeredSlides]="true" style="height: 200px; overflow: visible;">
+      <swiper-slide *ngFor="let item of indirectOffers" style="overflow: visible;">
+        <ion-card (click)="goToOffer(item)" style="min-height: 180px; border-radius: 0.5rem; padding: 8px;">
           <ion-card-header>
-            <div class="ion-justify-content-between ion-align-items-center" style="display: flex; flex-wrap: wrap; gap: 8px;">
+            <div class="ion-justify-content-between ion-align-items-left" style="display: flex; flex-wrap: wrap; gap: 6px; flex-direction: column;">
               <ion-card-title>{{ item.title }}</ion-card-title>
             </div>
-            <ion-card-subtitle>{{ item.user.fullName }}</ion-card-subtitle>
+            <ion-card-subtitle>{{ item.employerId.fullName }}</ion-card-subtitle>
           </ion-card-header>
           <ion-card-content>
             <p class="ion-text-wrap" style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">
@@ -65,18 +65,18 @@
 
   <div *ngIf="role === 'worker'">
     <h1 class="ion-padding-horizontal">Ofertas directas pendientes</h1>
-    <swiper-container [slidesPerView]="1.2" [spaceBetween]="10" [centeredSlides]="true" class="ion-padding" style="height: 250px;">
-      <swiper-slide *ngFor="let item of pendingOffers">
-        <ion-card (click)="goToOffer(item)">
+    <swiper-container [slidesPerView]="1.2" [spaceBetween]="5" [centeredSlides]="true" style="height: 200px; overflow: visible;">
+      <swiper-slide *ngFor="let item of pendingOffers" style="overflow: visible;">
+        <ion-card (click)="goToOffer(item)" style="min-height: 180px; border-radius: 0.5rem; padding: 8px;">
           <ion-card-header>
-            <div class="ion-justify-content-between ion-align-items-center" style="display: flex; flex-wrap: wrap; gap: 8px;">
+            <div class="ion-justify-content-between ion-align-items-left" style="display: flex; flex-wrap: wrap; gap: 6px; flex-direction: column;">
               <ion-card-title>{{ item.title }}</ion-card-title>
-              <ion-badge class="status-badge" color="success" *ngIf="item.status === 'completed'">Completado</ion-badge>
-              <ion-badge class="status-badge" color="warning" *ngIf="item.status === 'inProgress'">En progreso</ion-badge>
+              <ion-badge class="status-badge success-bg" *ngIf="item.status === 'completed'">Completado</ion-badge>
+              <ion-badge class="status-badge warning-bg" *ngIf="item.status === 'inProgress'">En progreso</ion-badge>
               <ion-badge class="status-badge" color="danger" *ngIf="item.status === 'rejected'">Rechazado</ion-badge>
               <ion-badge class="status-badge" color="medium" *ngIf="item.status === 'pending'">Pendiente</ion-badge>
             </div>
-            <ion-card-subtitle>{{ item.user.fullName }}</ion-card-subtitle>
+            <ion-card-subtitle>{{ item.employerId.fullName }}</ion-card-subtitle>
           </ion-card-header>
           <ion-card-content>
             <p class="ion-text-wrap" style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">
@@ -90,18 +90,18 @@
 
   <div>
     <h1 class="ion-padding-horizontal">Trabajos aceptados</h1>
-    <swiper-container [slidesPerView]="1.2" [spaceBetween]="10" [centeredSlides]="true" class="ion-padding" style="height: 250px;">
-      <swiper-slide *ngFor="let item of aceptedJobs">
-        <ion-card (click)="goToOffer(item)">
+    <swiper-container [slidesPerView]="1.2" [spaceBetween]="5" [centeredSlides]="true" style="height: 200px; overflow: visible;">
+      <swiper-slide *ngFor="let item of aceptedJobs" style="overflow: visible;">
+        <ion-card (click)="goToOffer(item)" style="min-height: 180px; border-radius: 0.5rem; padding: 8px;">
           <ion-card-header>
-            <div class="ion-justify-content-between ion-align-items-center" style="display: flex; flex-wrap: wrap; gap: 8px;">
+            <div class="ion-justify-content-between ion-align-items-left" style="display: flex; flex-wrap: wrap; gap: 6px; flex-direction: column;">
               <ion-card-title>{{ item.title }}</ion-card-title>
-              <ion-badge class="status-badge" color="success" *ngIf="item.status === 'completed'">Completado</ion-badge>
-              <ion-badge class="status-badge" color="warning" *ngIf="item.status === 'inProgress'">En progreso</ion-badge>
+              <ion-badge class="status-badge success-bg" *ngIf="item.status === 'completed'">Completado</ion-badge>
+              <ion-badge class="status-badge warning-bg" *ngIf="item.status === 'inProgress'">En progreso</ion-badge>
               <ion-badge class="status-badge" color="danger" *ngIf="item.status === 'rejected'">Rechazado</ion-badge>
               <ion-badge class="status-badge" color="medium" *ngIf="item.status === 'pending'">Pendiente</ion-badge>
             </div>
-            <ion-card-subtitle>{{ item.user.fullName }}{{ role === 'employer' ? ' - ' + item.user.businessName : '' }}</ion-card-subtitle>
+            <ion-card-subtitle>{{ role === 'employer' ? item.workerId.fullName : item.employerId.fullName }}{{ role === 'employer' ? ' - ' + item.workerId.businessName : '' }}</ion-card-subtitle>
           </ion-card-header>
           <ion-card-content>
             <p class="ion-text-wrap" style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">

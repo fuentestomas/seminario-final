@@ -63,10 +63,10 @@ class ModelMethods {
     };
 
     async getUserChats(id ,role) {
-        const filter = role == 'worker' ? {applierId: id} : {employerId: id}
+        const filter = role == 'worker' ? {workerId: id} : {employerId: id}
         let result = await model
                     .find(filter)
-                    .populate([role == 'worker' ? 'employerId': 'applierId'])
+                    .populate([role == 'worker' ? 'employerId': 'workerId'])
                     .sort('+_id')
                     .then(async (data) => {
                         const promises = data.map(async (chat) => {
@@ -94,16 +94,16 @@ class ModelMethods {
                             let chatUser;
                             if (chat.employerId.fullName) {
                                 chatUser = {
-                                    id: chat.employerId._id.toString(),
+                                    _id: chat.employerId._id.toString(),
                                     fullName: chat.employerId.fullName,
                                     photo: chat.employerId.photo,
                                     
                                 }
                             } else {
                                 chatUser = {
-                                    id: chat.applierId._id.toString(),
-                                    fullName: chat.applierId.fullName,
-                                    photo: chat.applierId.photo,
+                                    _id: chat.workerId._id.toString(),
+                                    fullName: chat.workerId.fullName,
+                                    photo: chat.workerId.photo,
                                     
                                 }
                             }
@@ -111,7 +111,7 @@ class ModelMethods {
                             let copy = { ...chat, lastMsg: modifiedMsg._doc, chatUser: chatUser };
                             copy._doc.lastMsg = copy.lastMsg;
                             copy._doc.chatUser = copy.chatUser;
-                            delete copy._doc.applierId;
+                            delete copy._doc.workerId;
                             delete copy._doc.employerId;
                             
                             //console.log('chat', copy)

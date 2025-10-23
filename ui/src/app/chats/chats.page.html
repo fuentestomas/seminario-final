@@ -14,11 +14,11 @@
   </ion-header>
 
   <ion-list>
-    <ion-item *ngFor="let item of items; let index" (click)="goToChat()">
+    <ion-item *ngFor="let item of items; let index" (click)="goToChat(item)">
       <ion-avatar slot="start">
         <img [src]="'https://picsum.photos/80/80?random=' + index" alt="avatar" />
       </ion-avatar>
-      <ion-label>{{ item }}</ion-label>
+      <ion-label>{{ item.chatUser?.fullName }}</ion-label>
     </ion-item>
   </ion-list>
 </ion-content>

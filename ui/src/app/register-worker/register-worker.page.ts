@@ -45,7 +45,7 @@ export class RegisterWorkerPage implements OnInit {
   onSubmit() {
     this.usersService.registerUser(this.user).subscribe({
       next: (res) => {
-        localStorage.setItem('userId', res._id);
+        localStorage.setItem('user', JSON.stringify(res));
         this.router.navigate(['tabs', 'home']);
       },
       error: (err) => { /* handle error */ }

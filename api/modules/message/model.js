@@ -11,7 +11,7 @@ const ModelSchema = new mongoose.Schema(
           type: mongoose.Schema.Types.ObjectId,
           ref: "users"
         },
-        message: { type: String },
+        text: { type: String },
     },
     { timestamps: true }
 );

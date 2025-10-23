@@ -1,11 +1,11 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonBackButton, IonButton, IonButtons, IonContent, IonDatetimeButton, IonHeader, IonIcon, IonInput, IonItem, IonLabel, IonModal, IonSelect, IonSelectOption, IonTextarea, IonTitle, IonToolbar } from '@ionic/angular/standalone';
+import { IonBackButton, IonButton, IonButtons, IonContent, IonDatetimeButton, IonHeader, IonIcon, IonInput, IonItem, IonLabel, IonModal, IonSelect, IonSelectOption, IonTextarea, IonTitle, IonToolbar, IonList, IonAvatar } from '@ionic/angular/standalone';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { OverlayEventDetail } from '@ionic/core/components';
 import { addIcons } from 'ionicons';
-import { add, star } from 'ionicons/icons';
+import { add, star, chatbubble } from 'ionicons/icons';
 import { CategoriesService } from 'src/services/categories/categories.service';
 import { OffersService } from 'src/services/offers/offers.service';
 
@@ -14,7 +14,7 @@ import { OffersService } from 'src/services/offers/offers.service';
   templateUrl: './offer.page.html',
   styleUrls: ['./offer.page.scss'],
   standalone: true,
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonModal, IonItem, IonLabel, IonSelect, IonSelectOption, IonTextarea, IonDatetimeButton, IonIcon, IonButtons, IonButton, RouterModule, IonBackButton, IonInput]
+  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonModal, IonItem, IonLabel, IonSelect, IonSelectOption, IonTextarea, IonDatetimeButton, IonIcon, IonButtons, IonButton, RouterModule, IonBackButton, IonInput, IonList, IonAvatar]
 })
 export class OfferPage implements OnInit {
 
@@ -30,6 +30,8 @@ export class OfferPage implements OnInit {
     endTime: '',
     photos: [],
     workerId: '',
+    employerId: '',
+    chatId: null
   };
   image!: string;
 
@@ -48,7 +50,7 @@ export class OfferPage implements OnInit {
     private categoriesService: CategoriesService,
     private offersService: OffersService
   ) {
-    addIcons({ add, star });
+    addIcons({ add, star, chatbubble });
     const nav = this.router.getCurrentNavigation();
     if (nav?.extras.state && nav.extras.state['userId']) {
       this.offer.workerId = nav.extras.state['userId'];
@@ -63,23 +65,17 @@ export class OfferPage implements OnInit {
       if (offerId) {
         this.isDetail = true;
 
-        this.offer = {
-          title: 'Instalacion electrica',
-          serviceType: 'type1',
-          description: 'Necesito instalar 3 tomacorrientes',
-          startTime: '10:00',
-          endTime: '18:00',
-          images: [
-            '../../assets/logo.png',
-            '../../assets/avatar.png'
-          ]
-        };
-        if (offerId == 'inProgress') {
-          this.inProgress = true;
-        }
-        if (offerId == 'isPending') {
-          this.isPending = true;
-        }
+        this.offersService.getOfferById(offerId).subscribe({
+          next: (res) => {
+            this.offer = res;
+            if (this.offer.status == 'inProgress') {
+              this.inProgress = true;
+            }
+            if (this.offer.status == 'pending') {
+              this.isPending = true;
+            }
+          }
+        });
       }
     });
     this.categoriesService.getAllCategories().subscribe({
@@ -96,6 +92,19 @@ export class OfferPage implements OnInit {
           this.router.navigate(['tabs', 'home']);
         }
       });
+    }
+  }
+
+  goToProfile() {
+    this.router.navigate(['profile', this.role === 'employer' ? this.offer.workerId._id : this.offer.employerId._id]);
+  }
+
+  openChat() {
+    if (this.offer.chatId) {
+      this.router.navigate(['chat', this.offer.chatId], { state: { worker: this.offer.workerId, employer: this.offer.employerId } });
+    }
+    else {
+      this.router.navigate(['chat'], { state: { worker: this.offer.workerId, employer: this.offer.employerId } });
     }
   }
 

@@ -51,6 +51,22 @@
     <ion-button *ngIf="!isDetail" expand="block" (click)="createOffer()">Enviar oferta</ion-button>
   <!-- </form> -->
 
+  <!-- <ion-list> -->
+  <ion-item>
+    <!-- <div (click)="goToProfile()"> -->
+      <ion-avatar slot="start" (click)="goToProfile()">
+        <img [src]="'https://picsum.photos/80/80?random=0'" alt="avatar" />
+      </ion-avatar>
+      <ion-label style="overflow: hidden;" (click)="goToProfile()">
+        <h2>{{ role === 'employer' ? offer.workerId.fullName : offer.employerId.fullName }}</h2>
+      </ion-label>
+    <!-- </div> -->
+    <!-- <div> -->
+      <ion-icon slot="end" name="chatbubble" (click)="openChat()"></ion-icon>
+    <!-- </div> -->
+  </ion-item>
+  <!-- </ion-list> -->
+
   <div *ngIf="inProgress" class="ion-padding">
     <ion-button expand="block" color="secondary" (click)="finishJob()">Finalizar trabajo</ion-button>
   </div>

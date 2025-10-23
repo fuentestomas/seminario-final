@@ -6,7 +6,7 @@
     <ion-avatar slot="start" class="profile-photo">
       <img src="https://picsum.photos/80/80?random=1" alt="avatar">
     </ion-avatar>
-    <ion-title>John Doe</ion-title>
+    <ion-title>{{ role === 'employer' ? worker.fullName : employer.fullName }}</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -14,7 +14,7 @@
   <div class="message-container">
     <div *ngFor="let message of messages" 
          class="message" 
-         [ngClass]="{'sent': message.sent, 'received': !message.sent}">
+         [ngClass]="{'sent': message.userId === userId, 'received': message.userId !== userId}">
       <div class="message-bubble">
         {{ message.text }}
       </div>

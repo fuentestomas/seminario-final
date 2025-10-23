@@ -37,7 +37,7 @@ router.get('/getUserChats/:userId/:role', async (req, res) => {
     }
 });
 
-router.get('/getInfo/:chatId', async (req, res) => {
+router.get('/:chatId/messages', async (req, res) => {
     try {
         let result = await modelMethods.getChatMessages(req.params.chatId);
         res.send(result);

@@ -38,14 +38,14 @@ io.on('connection', (socket) => {
   });
 
   socket.on('message', async (messageObj) => {
-    console.log(`Received message: ${messageObj.message}`);
+    console.log(`Received message: ${messageObj}`);
     // Creates new chat if not exists
     if (messageObj.chatId === 'none') {
       try {
         const chatMethods = new ChatMethods();
         let newChat = {
-          employerId: messageObj.from,
-          applierId: messageObj.to
+          employerId: messageObj.employerId,
+          workerId: messageObj.workerId
         };
         newChat = await chatMethods.create(newChat);
         messageObj.chatId = newChat._id.toString();
@@ -63,8 +63,8 @@ io.on('connection', (socket) => {
       const messageMethods = new MessageMethods();
       newMessage = {
         chatId: messageObj.chatId,
-        userId: messageObj.from,
-        message: messageObj.message
+        userId: messageObj.userId,
+        text: messageObj.text
       };
       await messageMethods.create(newMessage);
     }
