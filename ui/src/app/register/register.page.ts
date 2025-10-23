@@ -31,12 +31,13 @@ export class RegisterPage implements OnInit {
     lastName: '',
     phoneNumber: '',
     address: '',
-    profilePhoto: null as File | null,
+    profilePhoto: '',
     role: '',
     fullName: ''
   };
 
-  profileImageUrl: SafeUrl | null = null;
+  profileImageUrl: SafeUrl | null = "../../assets/avatar.png";
+  profileImageBase64: string | null = null;
 
   constructor(
     private sanitizer: DomSanitizer,
@@ -103,11 +104,13 @@ export class RegisterPage implements OnInit {
       const target = event.target as HTMLInputElement;
       const file = target.files?.[0];
       if (file) {
-        this.user.profilePhoto! = file;
         const reader = new FileReader();
         reader.onload = (e: ProgressEvent<FileReader>) => {
           if (e.target?.result) {
-            this.profileImageUrl = this.sanitizer.bypassSecurityTrustUrl(e.target.result as string);
+            const base64String = e.target.result as string;
+            this.profileImageBase64 = base64String;
+            this.profileImageUrl = this.sanitizer.bypassSecurityTrustUrl(base64String);
+            this.user.profilePhoto = base64String;
           }
         };
         reader.readAsDataURL(file);

@@ -27,10 +27,11 @@ export class ProfilePage {
     phoneNumber: '',
     address: '',
     role: '',
-    avgScore: 4
+    avgScore: 4,
+    profilePhoto: ''
   }
 
-  profileImageUrl: SafeUrl | null = null;
+  defaultAvatar: string = "../../assets/avatar.png";
   
   comments = [
     {
@@ -53,7 +54,6 @@ export class ProfilePage {
       const userId = params.get('id');
       if (userId) {
         this.isDetail = true;
-        this.profileImageUrl = "../../assets/avatar.png"
         this.usersService.getUserById(userId).subscribe({
           next: (res) => {
             this.user = res;

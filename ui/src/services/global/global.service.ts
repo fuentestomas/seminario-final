@@ -21,4 +21,9 @@ export class GlobalService {
     console.log('GET Request to:', `${environment.apiUrl}${route}`);
     return this.http.get(`${environment.apiUrl}${route}`, { params: parameters });
   }
+
+  public putRequest(route: string, body: any, parameters: HttpParams) {
+    console.log('PUT Request to:', `${environment.apiUrl}${route}`);
+    return this.http.put(`${environment.apiUrl}${route}`, body, { params: parameters });
+  }
 }

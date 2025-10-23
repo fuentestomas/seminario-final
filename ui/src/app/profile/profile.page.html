@@ -25,8 +25,8 @@
 
   <div class="avatar-container">
     <div class="avatar">
-      <img [src]="profileImageUrl" *ngIf="profileImageUrl" alt="Profile Picture">
-      <ion-icon name="camera"></ion-icon>
+      <img [src]="user.profilePhoto || defaultAvatar" alt="Profile Picture">
+      <ion-icon name="camera" *ngIf="!isDetail"></ion-icon>
     </div>
   </div>
 

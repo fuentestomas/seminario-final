@@ -59,6 +59,30 @@ router.get('/workerOffers/:userId', async (req, res) => {
     }
 });
 
+router.put('/accept/:id', async (req, res) => {
+    try {
+        req.body.status = 'inProgress';
+        let result = await modelMethods.update(req.params.id, req.body);
+        res.send(result);
+    }
+    catch (e) {
+        console.log(e);
+        res.sendStatus(400);
+    }
+});
+
+router.put('/reject/:id', async (req, res) => {
+    try {
+        req.body.status = 'rejected';
+        let result = await modelMethods.update(req.params.id, req.body);
+        res.send(result);
+    }
+    catch (e) {
+        console.log(e);
+        res.sendStatus(400);
+    }
+});
+
 router.put('/:id', async (req, res) => {
     try {
         let result = await modelMethods.update(req.params.id, req.body);

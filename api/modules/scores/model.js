@@ -12,6 +12,7 @@ const ModelSchema = new mongoose.Schema(
           ref: "users"
         },
         rate: { type: Number },
+        comment: { type: String },
     },
     { timestamps: true }
 );

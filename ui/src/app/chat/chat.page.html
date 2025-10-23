@@ -4,7 +4,7 @@
       <ion-back-button defaultHref="tabs/chats"></ion-back-button> 
     </ion-buttons>
     <ion-avatar slot="start" class="profile-photo">
-      <img src="https://picsum.photos/80/80?random=1" alt="avatar">
+      <img [src]="(role === 'employer' ? worker.profilePhoto : employer.profilePhoto) || '../../assets/avatar.png'" alt="avatar">
     </ion-avatar>
     <ion-title>{{ role === 'employer' ? worker.fullName : employer.fullName }}</ion-title>
   </ion-toolbar>

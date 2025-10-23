@@ -16,7 +16,7 @@
   <ion-list>
     <ion-item *ngFor="let item of items; let index" (click)="goToChat(item)">
       <ion-avatar slot="start">
-        <img [src]="'https://picsum.photos/80/80?random=' + index" alt="avatar" />
+        <img [src]="item.chatUser?.profilePhoto || '../../assets/avatar.png'" alt="avatar" />
       </ion-avatar>
       <ion-label>{{ item.chatUser?.fullName }}</ion-label>
     </ion-item>

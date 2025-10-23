@@ -15,7 +15,7 @@
   <ion-list>
     <ion-item *ngFor="let item of items; let index" (click)="goToProfile(item)">
       <ion-avatar slot="start">
-        <img [src]="'https://picsum.photos/80/80?random=' + index" alt="avatar" />
+        <img [src]="item.profilePhoto || '../../assets/avatar.png'" alt="avatar" />
       </ion-avatar>
       <ion-label style="overflow: hidden;">
         <h2>{{ item.fullName }}</h2>

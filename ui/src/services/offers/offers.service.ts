@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { GlobalService } from '../global/global.service';
 import { Observable } from 'rxjs';
 import { HttpParams } from '@angular/common/http';
+import { body } from 'ionicons/icons';
 
 @Injectable({
   providedIn: 'root'
@@ -33,6 +34,23 @@ export class OffersService {
     return this.globalService.postRequest(
       '/offers',
       offerData,
+      new HttpParams()
+    );
+  }
+
+  putAcceptOffer(offerId: string, selectedDate: string): Observable<any> {
+    const body = { date: selectedDate };
+    return this.globalService.putRequest(
+      `/offers/accept/${offerId}`,
+      body,
+      new HttpParams()
+    );
+  }
+
+  putRejectOffer(offerId: string): Observable<any> {
+    return this.globalService.putRequest(
+      `/offers/reject/${offerId}`,
+      {},
       new HttpParams()
     );
   }

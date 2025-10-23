@@ -20,6 +20,7 @@ export class OfferPage implements OnInit {
 
   @ViewChild("imageModal") imgModal!: IonModal;
   @ViewChild("ratingModal") rtgModal!: IonModal;
+  @ViewChild("dateModal") dateModal!: IonModal;
 
   isDetail: boolean = false;
   offer: any = {
@@ -113,9 +114,25 @@ export class OfferPage implements OnInit {
   }
 
   addImage() {
-    if (this.offer.images.length < 3) {
-      // In a real app, this would trigger the device's camera or file picker
-      this.offer.images.push('../../assets/logo.png');
+    if (this.offer.photos.length < 3) {
+      const input = document.createElement('input');
+      input.type = 'file';
+      input.accept = 'image/*';
+      input.onchange = (event: Event) => {
+        const target = event.target as HTMLInputElement;
+        const file = target.files?.[0];
+        if (file) {
+          const reader = new FileReader();
+          reader.onload = (e: ProgressEvent<FileReader>) => {
+            if (e.target?.result) {
+              const base64String = e.target.result as string;
+              this.offer.photos.push(base64String);
+            }
+          };
+          reader.readAsDataURL(file);
+        }
+      };
+      input.click();
     }
   }
 
@@ -147,14 +164,51 @@ export class OfferPage implements OnInit {
     }
   }
 
+  selectedDate: string = '';
+
+  getMinDate(): string {
+    const tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    return tomorrow.toISOString().split('T')[0];
+  }
+
   acceptOffer() {
-    console.log('Offer accepted');
-    // Implement your accept logic here
+    this.dateModal.present();
+  }
+
+  confirmDate() {
+    if (this.selectedDate) {
+      console.log('Offer accepted with date:', this.selectedDate);
+      this.offersService.putAcceptOffer(this.offer._id, this.selectedDate).subscribe({
+        next: (res) => {
+          console.log('Offer accepted successfully:', res);
+          this.offer.status = 'inProgress';
+          this.dateModal.dismiss();
+        },
+        error: (err) => {
+          console.error('Error accepting offer:', err);
+        }
+      });
+    }
+  }
+
+  dismissDateModal() {
+    this.dateModal.dismiss();
+    this.selectedDate = '';
   }
 
   rejectOffer() {
     console.log('Offer rejected');
-    // Implement your reject logic here
+    this.offersService.putRejectOffer(this.offer._id).subscribe({
+        next: (res) => {
+          console.log('Offer rejected successfully:', res);
+          this.offer.status = 'rejected';
+          this.dateModal.dismiss();
+        },
+        error: (err) => {
+          console.error('Error rejecting offer:', err);
+        }
+      });
   }
 
 }
