@@ -24,56 +24,157 @@
   </div>
 
   <div class="avatar-container">
-    <div class="avatar">
+    <div class="avatar" (click)="isCurrentUser && selectProfilePicture()">
       <img [src]="user.profilePhoto || defaultAvatar" alt="Profile Picture">
-      <ion-icon name="camera" *ngIf="!isDetail"></ion-icon>
+      <ion-icon name="camera" *ngIf="isCurrentUser"></ion-icon>
     </div>
   </div>
 
   <ion-list>
+    <!-- Basic Information -->
     <ion-item>
       <ion-label position="floating">Nombre</ion-label>
-      <ion-input [(ngModel)]="user.firstName" [disabled]="isDetail"></ion-input>
+      <ion-input 
+        [(ngModel)]="user.firstName" 
+        [disabled]="!isCurrentUser"
+        name="firstName"
+      ></ion-input>
     </ion-item>
 
     <ion-item>
       <ion-label position="floating">Apellido</ion-label>
-      <ion-input [(ngModel)]="user.lastName" [disabled]="isDetail"></ion-input>
+      <ion-input 
+        [(ngModel)]="user.lastName" 
+        [disabled]="!isCurrentUser"
+        name="lastName"
+      ></ion-input>
     </ion-item>
 
     <ion-item>
       <ion-label position="floating">Teléfono</ion-label>
-      <ion-input [(ngModel)]="user.phoneNumber" [disabled]="isDetail"></ion-input>
+      <ion-input 
+        [(ngModel)]="user.phoneNumber" 
+        [disabled]="!isCurrentUser"
+        name="phoneNumber"
+      ></ion-input>
     </ion-item>
 
     <ion-item>
       <ion-label position="floating">Dirección</ion-label>
-      <ion-input [(ngModel)]="user.address" [disabled]="isDetail"></ion-input>
+      <ion-input 
+        [(ngModel)]="user.address" 
+        [disabled]="!isCurrentUser"
+        name="address"
+      ></ion-input>
     </ion-item>
+
+    <!-- Worker Specific Information -->
+    <ng-container *ngIf="user.role === 'worker'">
+      <ion-item>
+        <ion-label position="floating">Ocupación</ion-label>
+        <ion-input 
+          [(ngModel)]="user.work" 
+          [disabled]="!isCurrentUser"
+          name="work"
+        ></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">Descripción</ion-label>
+        <ion-textarea 
+          [ngModel]="user.description" 
+          (ngModelChange)="isCurrentUser && (user.description = $event)"
+          [disabled]="!isCurrentUser"
+          name="description"
+          rows="3"
+        ></ion-textarea>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">Nombre del negocio</ion-label>
+        <ion-input 
+          [ngModel]="user.businessName" 
+          (ngModelChange)="isCurrentUser && (user.businessName = $event)"
+          [disabled]="!isCurrentUser"
+          name="businessName"
+        ></ion-input>
+      </ion-item>
+
+      <!-- <ion-item>
+        <ion-label position="floating">Horario de trabajo</ion-label>
+        <div class="time-range">
+          <ion-input 
+            type="time" 
+            [ngModel]="user.openingHour" 
+            (ngModelChange)="isCurrentUser && (user.openingHour = $event)"
+            [disabled]="!isCurrentUser"
+            name="openingHour"
+          ></ion-input>
+          <span>-</span>
+          <ion-input 
+            type="time" 
+            [ngModel]="user.closingHour" 
+            (ngModelChange)="isCurrentUser && (user.closingHour = $event)"
+            [disabled]="!isCurrentUser"
+            name="closingHour"
+          ></ion-input>
+        </div>
+      </ion-item> -->
+    </ng-container>
   </ion-list>
 
-  <ion-button expand="block" *ngIf="isDetail && user.role === 'worker'" (click)="goToOffer()">Enviar oferta</ion-button>
+  <!-- Action Buttons -->
+  <ion-button 
+    expand="block" 
+    *ngIf="isDetail && user.role === 'worker' && !isCurrentUser" 
+    (click)="goToOffer()"
+  >
+    Enviar oferta
+  </ion-button>
 
-  <ion-button expand="block" *ngIf="!isDetail" disabled>Guardar</ion-button>
+  <ion-button 
+    expand="block" 
+    *ngIf="isCurrentUser" 
+    (click)="saveProfile()"
+  >
+    Guardar cambios
+  </ion-button>
 
-  <ion-button expand="block" *ngIf="!isDetail" color="danger" (click)="logout()">Cerrar sesión</ion-button>
+  <ion-button 
+    expand="block" 
+    *ngIf="isCurrentUser" 
+    color="danger" 
+    (click)="logout()"
+  >
+    Cerrar sesión
+  </ion-button>
 
-  <ion-label class="ion-margin-top">
-    <ion-title>Comentarios</ion-title> 
-  </ion-label>
+  <!-- Reviews Section -->
+  <ng-container *ngIf="user.role === 'worker'">
+    <ion-label class="ion-margin-top">
+      <ion-title>Reseñas y Calificaciones</ion-title> 
+    </ion-label>
 
-  <ion-card *ngFor="let comment of comments" class="comment-card">
-    <ion-item>
-      <ion-avatar slot="start">
-        <img src="../../assets/avatar.png"> 
-      </ion-avatar>
-      <ion-label>
-        <h3>{{ comment.firstName }} {{ comment.lastName }}</h3>
-      </ion-label>
-    </ion-item>
-    <ion-card-content>
-      {{ comment.text }}
-    </ion-card-content>
-  </ion-card>
+    <ion-card *ngFor="let score of scores" class="comment-card">
+      <ion-item>
+        <ion-avatar slot="start">
+          <img [src]="score.employerId?.profilePhoto || defaultAvatar" alt="avatar"> 
+        </ion-avatar>
+        <ion-label>
+          <h3>{{ score.senderId?.fullName }}</h3>
+          <div class="rating">
+            <ion-icon 
+              *ngFor="let star of [1, 2, 3, 4, 5]"
+              [name]="star <= score.rating ? 'star' : 'star-outline'"
+              [color]="star <= score.rating ? 'warning' : 'medium'"
+            ></ion-icon>
+          </div>
+        </ion-label>
+      </ion-item>
+      <ion-card-content>
+        {{ score.comment }}
+      </ion-card-content>
+    </ion-card>
+  </ng-container>
 
 </ion-content>

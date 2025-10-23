@@ -28,4 +28,16 @@ export class UsersService {
   getUserById(userId: string): Observable<any> {
     return this.globalService.getRequest(`/users/${userId}`);
   }
+
+  getUserScores(userId: string): Observable<any> {
+    return this.globalService.getRequest(`/scores/user/${userId}`);
+  }
+
+  updateUser(userId: string, userData: any): Observable<any> {
+    return this.globalService.putRequest(
+      `/users/${userId}`,
+      userData,
+      new HttpParams()
+    );
+  }
 }
