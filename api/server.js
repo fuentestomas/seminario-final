@@ -1,3 +1,4 @@
+require('dotenv').config();
 const { app } = require('./app');
 const http = require('http');
 const mongoose = require('mongoose');
@@ -6,10 +7,18 @@ const { ModelMethods: ChatMethods } = require('./modules/chat/methods');
 const { ModelMethods: MessageMethods } = require('./modules/message/methods');
 
 // Configuración de la base de datos
-mongoose.connect('mongodb://localhost:27017/seminario').then(() => {
+const MONGODB_URI = process.env.MONGODB_URI;
+
+if (!MONGODB_URI) {
+  console.error('ERROR: La variable de entorno MONGODB_URI no está definida.');
+  process.exit(1);
+}
+
+mongoose.connect(MONGODB_URI).then(() => {
   console.log('Conectado a la base de datos');
 }).catch(err => {
   console.error('Error al conectar a la base de datos:', err);
+  process.exit(1);
 });
 
 // Configuración del puerto
