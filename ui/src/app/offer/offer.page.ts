@@ -113,6 +113,25 @@ export class OfferPage implements OnInit {
     this.rtgModal.present();
   }
 
+  finishWork() {
+    const scoreData = {
+      receiverId: this.role === 'employer' ? this.offer.workerId._id : this.offer.employerId._id,
+      senderId: this.role === 'employer' ? this.offer.employerId._id : this.offer.workerId._id,
+      rate: this.rating,
+      comment: this.comment
+    };
+    this.offersService.putFinishOffer(this.offer._id, scoreData).subscribe({
+      next: (res) => {
+        console.log('Offer finished successfully:', res);
+        this.offer.status = 'completed';
+        this.rtgModal.dismiss();
+      },
+      error: (err) => {
+        console.error('Error finishing offer:', err);
+      }
+    });
+  }
+
   addImage() {
     if (this.offer.photos.length < 3) {
       const input = document.createElement('input');

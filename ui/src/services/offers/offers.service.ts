@@ -54,4 +54,12 @@ export class OffersService {
       new HttpParams()
     );
   }
+
+  putFinishOffer(offerId: string, scoreData: any): Observable<any> {
+    return this.globalService.putRequest(
+      `/offers/finish/${offerId}`,
+      scoreData,
+      new HttpParams()
+    );
+  }
 }

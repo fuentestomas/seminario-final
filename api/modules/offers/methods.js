@@ -1,5 +1,7 @@
 const model = require('./model');
 const chatModel = require('../chat/model');
+const scoresModel = require('../scores/model');
+const usersModel = require('../users/model');
 
 class ModelMethods {
 
@@ -121,6 +123,26 @@ class ModelMethods {
                 return result;
             });
         
+        return result;
+    }
+
+    async completeWork(id, scoreData) {
+        let result = await model.findByIdAndUpdate(id, { status: 'completed' }, { returnDocument: 'after' })
+            .then(async (result) => {
+                await scoresModel.create(scoreData);
+                let receiverScores = await scoresModel.find({ receiverId: scoreData.receiverId });
+                
+                let sumScore = 0;
+                for (let i = 0; i < receiverScores.length; i++) {
+                    sumScore += receiverScores[i].rate;
+                }
+                let averageScore = sumScore / receiverScores.length;
+                console.log('New average score for user', scoreData.receiverId, ':', averageScore);
+                await usersModel.findByIdAndUpdate(scoreData.receiverId, { $set: { avgScore: averageScore } });
+                return result;
+            });
+
+
         return result;
     }
 

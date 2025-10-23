@@ -83,6 +83,17 @@ router.put('/reject/:id', async (req, res) => {
     }
 });
 
+router.put('/finish/:id', async (req, res) => {
+    try {
+        let result = await modelMethods.completeWork(req.params.id, req.body);
+        res.send(result);
+    }
+    catch (e) {
+        console.log(e);
+        res.sendStatus(400);
+    }
+});
+
 router.put('/:id', async (req, res) => {
     try {
         let result = await modelMethods.update(req.params.id, req.body);

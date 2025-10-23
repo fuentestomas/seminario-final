@@ -129,6 +129,11 @@
             <div class="experience-text">
               Califica tu experiencia
             </div>
+            <div class="ion-padding">
+              <ion-button expand="block" (click)="finishWork()" [disabled]="rating === 0">
+                Finalizar
+              </ion-button>
+            </div>
           </div>
         </div>
       </ion-content>
